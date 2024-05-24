@@ -7,7 +7,7 @@
         <router-link to="/Dashboard" class="nav-link" active-class="active-link">
           <i class="fas fa-tachometer-alt"></i> Dashboard
         </router-link>
-        <router-link to="/Myresumees" class="nav-link" active-class="active-link">
+        <!-- <router-link to="/Myresumees" class="nav-link" active-class="active-link">
           <i class="fas fa-file-alt"></i> My Resumees
         </router-link>
         <router-link to="/Settings" class="nav-link" active-class="active-link">
@@ -15,7 +15,7 @@
         </router-link>
         <router-link to="/About" class="nav-link" active-class="active-link">
           <i class="fas fa-info-circle"></i> About
-        </router-link>
+        </router-link> -->
       </div>
     </nav>
     <router-view/>

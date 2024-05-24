@@ -1,14 +1,13 @@
 <template>
   <div class="dashboard">
-    <div class="recent">
-    </div>
-    <div class="templates">
-      <span>To create a new resume, choose a template</span>
-      <div v-for="template in templates" :key="template.id">
-        <Template :id="template.id" />
+      <div class="recent">
+      </div>
+      <div class="templates">
+        <span>To create a new resume, choose a template</span>
+        <Template/>
       </div>
     </div>
-  </div>
+    
 </template>
 
 <script>
@@ -31,5 +30,8 @@ export default {
 
 <!-- Add your styles here -->
 <style>
-/* Add your styles for the dashboard here */
+.dashboard{
+  position: relative;
+  left: 250px;
+}
 </style>
