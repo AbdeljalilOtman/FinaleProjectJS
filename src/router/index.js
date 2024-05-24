@@ -13,7 +13,21 @@ const routes = [
     name: 'dashboard',
 
     component: () => import('../views/DashboardView.vue')
+  },
+  {
+    path: '/dashboard/templates/:id',
+    name: 'TemplateView',
+
+    component: () => import('../views/TemplateView.vue')
+  },
+  {
+    path: '/dashboard/recents/:id',
+    name: 'RecentView',
+
+    component: () => import('../views/RecentView.vue')
   }
+
+  
 ]
 
 const router = createRouter({

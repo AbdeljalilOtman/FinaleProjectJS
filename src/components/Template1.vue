@@ -1,6 +1,6 @@
 <template>
   <div class="template-content">
-    <div class="container">
+    <div ref="componentContainer" class="container">
       <div class="section personal-info">
         <h1>
           <input v-model="personalInfo.name" placeholder="Enter your name" />
@@ -58,52 +58,75 @@
       </div>
     </div>
     <div class="section">
-        <button @click="saveAllChanges" class="save-button">Save Changes</button>
-      </div>
+      <button @click="saveAllChanges" class="save-button">Save Changes</button>
+    </div>
   </div>
 </template>
 
 <script>
-import { saveChange, updateChange } from '@/composables/useFirestore.js'; // Adjust the import path as needed
+import html2canvas from 'html2canvas';
+import { saveChange } from '@/composables/useFirestore.js'; // Adjust the import path as needed
 
 export default {
   name: 'Template1',
+  props: {
+    initial: {
+      type: Object,
+      default: () => ({}),
+      required: false
+    }
+  },
   data() {
     return {
       personalInfo: {
-        name: 'John Doe',
-        email: 'john@example.com',
-        phone: '+1 123 456 7890',
-        address: '123 Main Street, City, Country'
+        name: this.initial.personalInfo?.name || 'John Doe',
+        email: this.initial.personalInfo?.email || 'john@example.com',
+        phone: this.initial.personalInfo?.phone || '+1 123 456 7890',
+        address: this.initial.personalInfo?.address || '123 Main Street, City, Country'
       },
       education: {
-        degree: 'Bachelor of Science in Computer Science',
-        university: 'University Name, City, Country',
-        graduationYear: '20XX'
+        degree: this.initial.education?.degree || 'Bachelor of Science in Computer Science',
+        university: this.initial.education?.university || 'University Name, City, Country',
+        graduationYear: this.initial.education?.graduationYear || '20XX'
       },
       experience: {
-        position: 'Software Engineer',
-        company: 'Company Name, City, Country',
-        dates: 'Start Date - End Date',
-        responsibilities: ['Responsibility 1', 'Responsibility 2', 'Responsibility 3']
+        position: this.initial.experience?.position || 'Software Engineer',
+        company: this.initial.experience?.company || 'Company Name, City, Country',
+        dates: this.initial.experience?.dates || 'Start Date - End Date',
+        responsibilities: this.initial.experience?.responsibilities || ['Responsibility 1', 'Responsibility 2', 'Responsibility 3']
       },
-      skills: ['HTML', 'CSS', 'JavaScript', 'Python', 'Java', 'React', 'Node.js']
+      skills: this.initial.skills || ['HTML', 'CSS', 'JavaScript', 'Python', 'Java', 'React', 'Node.js'],
+      snapshot: ''
     };
   },
   methods: {
     async saveAllChanges() {
-      const userId = 'currentUser'; // This should be dynamically set
-      try {
-        await saveChange(userId, {
-          personalInfo: this.personalInfo,
-          education: this.education,
-          experience: this.experience,
-          skills: this.skills
-        });
+    const userId = 'currentUser'; // This should be dynamically set
+    const templateID = 1;
+    try {
+      await this.captureSnapshot(); // Capture snapshot before saving changes
+      console.log(typeof(this.snapshot))
+      await saveChange(userId, templateID, {
+        personalInfo: this.personalInfo,
+        education: this.education,
+        experience: this.experience,
+        skills: this.skills,
+        snapshot: this.snapshot // Pass snapshot data to saveChange function
+      });
+      
         alert('Changes saved successfully!');
       } catch (error) {
         console.error('Failed to save changes:', error);
         alert('Failed to save changes.');
+      }
+    },
+
+    async captureSnapshot() {
+      try {
+        const canvas = await html2canvas(this.$refs.componentContainer);
+        this.snapshot = canvas.toDataURL('image/png');
+      } catch (error) {
+        console.error('Error capturing snapshot:', error);
       }
     }
   }
@@ -123,6 +146,7 @@ export default {
   margin: 0 auto;
   max-width: 800px;
 }
+
 .save-button {
   background-color: #4CAF50; /* Green */
   border: none;
@@ -136,6 +160,7 @@ export default {
   cursor: pointer;
   border-radius: 4px;
 }
+
 .section {
   margin-bottom: 20px;
 }

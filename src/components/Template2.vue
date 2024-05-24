@@ -1,138 +1,295 @@
 <template>
-    <div class="template-content container mt-4 p-3 border rounded bg-light">
-      <div class="personal-info mb-4">
-        <h1 class="text-primary">
-          <input v-model="personalInfo.name" class="form-control form-control-lg" placeholder="Enter your name" />
-        </h1>
-        <p>
-          <strong>Email:</strong> <input v-model="personalInfo.email" class="form-control" placeholder="Enter your email" />
-        </p>
-        <p>
-          <strong>Phone:</strong> <input v-model="personalInfo.phone" class="form-control" placeholder="Enter your phone number" />
-        </p>
-        <p>
-          <strong>Address:</strong> <input v-model="personalInfo.address" class="form-control" placeholder="Enter your address" />
-        </p>
-      </div>
-      <div class="education mb-4">
-        <h2 class="text-secondary">Education</h2>
-        <div>
-          <h3>
-            <input v-model="education.degree" class="form-control" placeholder="Enter your degree" />
-          </h3>
-          <p>
-            <input v-model="education.university" class="form-control" placeholder="Enter your university" />
+    <div ref="componentContainer" class="container mt-4 p-4 bg-light rounded shadow-sm">
+      <div class="header row mb-4 border-bottom pb-3">
+        <div class="profile-section col-md-3 text-center">
+          <img :src="profilePictureUrl" alt="Profile Picture" class="profile-pic img-fluid rounded-circle mb-2" />
+          <input type="file" @change="onFileChange" accept="image/*" class="file-input form-control-file" />
+        </div>
+        <div class="personal-info col-md-9">
+          <h1 class="h3 mb-3">
+            <input v-model="templateData.personalInfo.name" placeholder="Enter your name" class="input-large form-control form-control-lg" />
+          </h1>
+          <p class="mb-2">
+            <label class="form-label">Email:</label>
+            <input v-model="templateData.personalInfo.email" placeholder="Enter your email" class="input-small form-control" />
           </p>
-          <p>
-            <strong>Graduation Year:</strong> <input v-model="education.graduationYear" class="form-control" placeholder="Enter graduation year" />
+          <p class="mb-2">
+            <label class="form-label">Phone:</label>
+            <input v-model="templateData.personalInfo.phone" placeholder="Enter your phone number" class="input-small form-control" />
+          </p>
+          <p class="mb-2">
+            <label class="form-label">Address:</label>
+            <input v-model="templateData.personalInfo.address" placeholder="Enter your address" class="input-small form-control" />
           </p>
         </div>
       </div>
-      <div class="experience mb-4">
-        <h2 class="text-secondary">Work Experience</h2>
-        <div>
-          <h3>
-            <input v-model="experience.position" class="form-control" placeholder="Enter your position" />
-          </h3>
-          <p>
-            <input v-model="experience.company" class="form-control" placeholder="Enter company name" />
-          </p>
-          <p>
-            <input v-model="experience.dates" class="form-control" placeholder="Enter start and end date" />
-          </p>
-          <ul class="list-group">
-            <li v-for="(responsibility, index) in experience.responsibilities" :key="index" class="list-group-item">
-              <input v-model="experience.responsibilities[index]" class="form-control" placeholder="Enter a responsibility" />
-            </li>
-          </ul>
+  
+      <draggable class="dragArea list-group w-100" :list="templateData.list" @change="log" :handle="'.drag-handle'">
+        <div class="section education mb-4">
+          <h2 class="drag-handle bg-primary text-white p-2 rounded-top">Education</h2>
+          <div class="p-3 bg-white border rounded-bottom">
+            <draggable class="dragArea list-group w-100" :list="templateData.list" @change="log">
+              <h3 class="h5 mb-2">
+                <input v-model="templateData.education.degree" placeholder="Enter your degree" class="input-medium form-control" />
+              </h3>
+              <p class="mb-1">
+                <input v-model="templateData.education.university" placeholder="Enter your university" class="input-small form-control" />
+              </p>
+              <p class="mb-1">
+                <label class="form-label">Graduation Year:</label>
+                <input v-model="templateData.education.graduationYear" placeholder="Enter graduation year" class="input-small form-control" />
+              </p>
+            </draggable>
+          </div>
         </div>
-      </div>
-      <div class="skills mb-4">
-        <h2 class="text-secondary">Skills</h2>
-        <div>
-          <span v-for="(skill, index) in skills" :key="index" class="badge bg-secondary m-1">
-            <input v-model="skills[index]" class="form-control bg-secondary text-white border-0" placeholder="Enter a skill" />
-          </span>
+  
+        <div class="section experience mb-4">
+          <h2 class="drag-handle bg-primary text-white p-2 rounded-top">Work Experience</h2>
+          <div class="p-3 bg-white border rounded-bottom">
+            <draggable class="dragArea list-group w-100" :list="templateData.list" @change="log">
+              <h3 class="h5 mb-2">
+                <input v-model="templateData.experience.position" placeholder="Enter your position" class="input-medium form-control" />
+              </h3>
+              <p class="mb-1">
+                <input v-model="templateData.experience.company" placeholder="Enter company name" class="input-small form-control" />
+              </p>
+              <p class="mb-1">
+                <input v-model="templateData.experience.dates" placeholder="Enter start and end date" class="input-small form-control" />
+              </p>
+              <ul class="list-unstyled">
+                <li v-for="(responsibility, index) in templateData.experience.responsibilities" :key="index" class="mb-1">
+                  <input v-model="templateData.experience.responsibilities[index]" placeholder="Enter a responsibility" class="input-small form-control" />
+                </li>
+              </ul>
+            </draggable>
+          </div>
         </div>
+  
+        <div class="section skills mb-4">
+          <h2 class="drag-handle bg-primary text-white p-2 rounded-top">Skills</h2>
+          <div class="p-3 bg-white border rounded-bottom">
+            <draggable class="dragArea list-group w-100" :list="templateData.list" @change="log">
+              <span v-for="(skill, index) in templateData.skills" :key="index" class="badge bg-secondary p-2 me-2 mb-2">
+                <input v-model="templateData.skills[index]" placeholder="Enter a skill" class="input-small form-control bg-transparent border-0 text-white" />
+              </span>
+            </draggable>
+          </div>
+        </div>
+      </draggable>
+  
+      <div class="section text-center">
+        <button @click="saveAllChanges" class="save-button btn btn-success btn-lg">Save Changes</button>
       </div>
     </div>
   </template>
   
   <script>
+  import Draggable from 'vue-draggable-next';
+  import { VueDraggableNext } from 'vue-draggable-next';
+  import html2canvas from 'html2canvas';
+  import { saveChange } from '@/composables/useFirestore.js'; // Adjust the import path as needed
+  
   export default {
     name: 'Template2',
+    components: {
+      Draggable,
+      draggable: VueDraggableNext,
+    },
+    props: {
+      initial: {
+        type: Object,
+        default: () => ({}),
+        required: false,
+      },
+    },
     data() {
       return {
-        personalInfo: {
-          name: 'Jane Smith',
-          email: 'jane@example.com',
-          phone: '+1 987 654 3210',
-          address: '456 Another Street, City, Country'
+        templateData: {
+          personalInfo: {
+            name: this.initial.personalInfo?.name || 'John Doe',
+            email: this.initial.personalInfo?.email || 'john@example.com',
+            phone: this.initial.personalInfo?.phone || '+1 123 456 7890',
+            address: this.initial.personalInfo?.address || '123 Main Street, City, Country',
+          },
+          education: {
+            degree: this.initial.education?.degree || 'Bachelor of Science in Computer Science',
+            university: this.initial.education?.university || 'University Name, City, Country',
+            graduationYear: this.initial.education?.graduationYear || '20XX',
+          },
+          experience: {
+            position: this.initial.experience?.position || 'Software Engineer',
+            company: this.initial.experience?.company || 'Company Name, City, Country',
+            dates: this.initial.experience?.dates || 'Start Date - End Date',
+            responsibilities: this.initial.experience?.responsibilities || ['Responsibility 1', 'Responsibility 2', 'Responsibility 3'],
+          },
+          skills: this.initial.skills || ['HTML', 'CSS', 'JavaScript', 'Python', 'Java', 'React', 'Node.js'],
+          snapshot: '',
         },
-        education: {
-          degree: 'Master of Science in Information Technology',
-          university: 'Another University, City, Country',
-          graduationYear: '20YY'
-        },
-        experience: {
-          position: 'Senior Developer',
-          company: 'Another Company, City, Country',
-          dates: 'Start Date - End Date',
-          responsibilities: ['Responsibility A', 'Responsibility B', 'Responsibility C']
-        },
-        skills: ['HTML', 'CSS', 'JavaScript', 'Ruby', 'PHP', 'Vue.js', 'Django']
+        profilePictureUrl: this.initial.profilePic || '', // Default profile picture URL
       };
-    }
+    },
+    methods: {
+      async saveAllChanges() {
+        const userId = 'currentUser'; // This should be dynamically set
+        const templateID = 2;
+        try {
+          await this.captureSnapshot(); // Capture snapshot before saving changes
+          await saveChange(userId, templateID, {
+            personalInfo: this.templateData.personalInfo,
+            education: this.templateData.education,
+            experience: this.templateData.experience,
+            skills: this.templateData.skills,
+            snapshot: this.templateData.snapshot, // Pass snapshot data to saveChange function
+            profilePic: this.profilePictureUrl
+          });
+          alert('Changes saved successfully!');
+        } catch (error) {
+          console.error('Failed to save changes:', error);
+          alert('Failed to save changes.');
+        }
+      },
+      async captureSnapshot() {
+        try {
+          const canvas = await html2canvas(this.$refs.componentContainer);
+          this.templateData.snapshot = canvas.toDataURL('image/png');
+        } catch (error) {
+          console.error('Error capturing snapshot:', error);
+        }
+      },
+      onFileChange(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            this.profilePictureUrl = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      },
+    },
   };
   </script>
   
   <style scoped>
-  .template-content {
-    max-width: 800px;
-    margin: 0 auto;
+  .container {
+    font-family: 'Roboto', sans-serif;
+    padding: 30px;
+    background: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
-  .personal-info h1 input,
-  .education h3 input,
-  .experience h3 input {
-    border: none;
-    border-bottom: 1px solid #ccc;
-    border-radius: 0;
-    outline: none;
-    padding: 5px;
-    width: 100%;
-    box-sizing: border-box;
+  .header {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+  }
+  
+  .profile-pic {
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
     margin-bottom: 10px;
   }
   
-  .personal-info p input,
-  .education p input,
-  .experience p input {
-    border: none;
-    border-bottom: 1px solid #ccc;
-    border-radius: 0;
-    outline: none;
-    padding: 5px;
-    width: 100%;
-    box-sizing: border-box;
+  .file-input {
+    margin-top: 10px;
+  }
+  
+  .personal-info {
+    flex-grow: 1;
+  }
+  
+  .personal-info h1 {
     margin-bottom: 10px;
   }
   
-  .skills .badge {
+  .personal-info p {
+    margin: 5px 0;
+  }
+  
+  .personal-info input {
+    width: calc(100% - 100px);
+    padding: 8px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .section {
+    margin-bottom: 20px;
+  }
+  
+  .section h2 {
+    background: #007bff;
+    color: #fff;
+    padding: 10px;
+    margin: 0 -30px;
+    border-radius: 5px 5px 0 0;
+  }
+  
+  .input-large {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .input-medium {
+    width: calc(100% - 20px);
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .input-small {
+    width: calc(100% - 20px);
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  .skill {
     display: inline-block;
+    background-color: #e0e0e0;
+    border-radius: 4px;
     padding: 5px 10px;
+    margin-right: 5px;
+    margin-bottom: 5px;
   }
   
-  .skills .badge input {
+  .save-button {
+    background-color: #28a745;
     border: none;
-    background: none;
-    color: inherit;
-    outline: none;
-    padding: 0;
-    margin: 0;
-    width: auto;
-    display: inline-block;
+    color: white;
+    padding: 15px 32px;
     text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .save-button:hover {
+    background-color: #218838;
   }
   </style>
   
