@@ -1,35 +1,23 @@
 <template>
-  <div class="dashboard">
-    <div class="recent">
-    </div>
-    <div class="templates">
-      <span>To create a new resume, choose a template</span>
-      <div v-for="template in templates" :key="template.id">
-        <Template :id="template.id" />
-      </div>
-    </div>
-  </div>
+  <Templates/>
 </template>
 
 <script>
-import Template from '../components/Template.vue';
+import Templates from '../components/Templates.vue';
 
 export default {
-  name: 'Dashboard',
+  name: 'dashboard',
   components: {
-    Template
+    Templates
   },
   data() {
     return {
-      templates: [
-        { id: 'gphXBLKAAJwTDRQ0uetH' },
-      ]
+
     };
   }
 };
 </script>
 
-<!-- Add your styles here -->
 <style>
-/* Add your styles for the dashboard here */
+
 </style>
