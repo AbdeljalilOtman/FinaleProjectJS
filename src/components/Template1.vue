@@ -57,10 +57,15 @@
         </div>
       </div>
     </div>
+    <div class="section">
+        <button @click="saveAllChanges" class="save-button">Save Changes</button>
+      </div>
   </div>
 </template>
 
 <script>
+import { saveChange, updateChange } from '@/composables/useFirestore.js'; // Adjust the import path as needed
+
 export default {
   name: 'Template1',
   data() {
@@ -84,6 +89,23 @@ export default {
       },
       skills: ['HTML', 'CSS', 'JavaScript', 'Python', 'Java', 'React', 'Node.js']
     };
+  },
+  methods: {
+    async saveAllChanges() {
+      const userId = 'currentUser'; // This should be dynamically set
+      try {
+        await saveChange(userId, {
+          personalInfo: this.personalInfo,
+          education: this.education,
+          experience: this.experience,
+          skills: this.skills
+        });
+        alert('Changes saved successfully!');
+      } catch (error) {
+        console.error('Failed to save changes:', error);
+        alert('Failed to save changes.');
+      }
+    }
   }
 };
 </script>
@@ -101,7 +123,19 @@ export default {
   margin: 0 auto;
   max-width: 800px;
 }
-
+.save-button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
 .section {
   margin-bottom: 20px;
 }
