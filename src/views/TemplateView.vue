@@ -5,6 +5,7 @@
 <script>
 import { saveChange } from '@/composables/useFirestore.js'; // Adjust the import path as needed
 import html2canvas from 'html2canvas';
+import getUser from '@/composables/getUser';
 
 export default {
   name: 'TemplateView',
@@ -45,9 +46,17 @@ export default {
     },
     async saveAllChanges(templateData) {
       try {
+        const { user } = getUser(); // Use destructuring to get the user ref
+        const userId = user.value ? user.value.uid : null; // Safely get the user ID
+        
+        if (!userId) {
+          throw new Error('User is not authenticated');
+        }
+
+        console.log(userId);
         await this.captureSnapshot(); // Capture snapshot before saving changes
-        templateData[2].snapshot = this.snapshot; // Update snapshot in templateData
-        await saveChange(templateData[0], templateData[1], templateData[2]);
+        templateData[1].snapshot = this.snapshot; // Update snapshot in templateData
+        await saveChange(userId, templateData[0], templateData[1]); // Pass the user ID to saveChange
         alert('Changes saved successfully!');
       } catch (error) {
         console.error('Failed to save changes:', error);

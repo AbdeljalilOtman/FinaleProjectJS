@@ -11,14 +11,13 @@
             <router-link class="nav-link" to="/dashboard">Dashboard</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/my-resumes">My Resumes</router-link>
+            <router-link class="nav-link" to="/dashboard/myresumees">My Resumes</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/settings">Settings</router-link>
+            <router-link class="nav-link" to="/dashboard/settings">Settings</router-link>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/about">About</router-link>
-          </li>
+
+            <button class="nav-link btn btn-link" @click="handleLogout">Logout</button>
         </ul>
       </div>
     </div>
@@ -26,7 +25,26 @@
 </template>
 
 <script>
+import { ref, onMounted } from 'vue';
+import logout  from '../composables/useLogout';
+import getUser  from '@/composables/getUser';
 export default {
-  name: 'NavBar'
-}
+  name: 'NavBar',
+  data() {
+    return {
+      user: null,
+    };
+  },
+  methods: {
+    async handleLogout() {
+      try {
+        await logout();
+        this.user = null;
+        this.$router.push('/welcome');
+      } catch (error) {
+        console.error('Error during logout:', error);
+      }
+    },
+  }
+};
 </script>

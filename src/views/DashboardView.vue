@@ -1,11 +1,14 @@
 <template>
-  <RecentWork/>
-  <Templates/>
+  <div>
+
+      <RecentWork />
+      <Templates />
+    </div>
 </template>
 
 <script>
 import Templates from '../components/Templates.vue';
-import RecentWork from '../components/RecentWork.vue' ; 
+import RecentWork from '../components/RecentWork.vue';
 
 export default {
   name: 'dashboard',
@@ -14,12 +17,14 @@ export default {
   },
   data() {
     return {
-
     };
+  },
+  mounted() {
+
   }
 };
 </script>
 
-<style>
-
+<style scoped>
+/* Add your styles here */
 </style>

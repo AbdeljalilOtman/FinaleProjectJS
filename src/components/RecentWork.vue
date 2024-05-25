@@ -15,7 +15,7 @@
 
 <script>
 import { getRecentChanges } from '../composables/useFirestore.js';
-
+import getUser from '@/composables/getUser.js';
 export default {
   name: 'RecentWork',
   data() {
@@ -24,8 +24,10 @@ export default {
     };
   },
   async mounted() {
-    const userId = "currentUser"; // Replace with actual user context
-    try {
+    const { user } = getUser(); // Use destructuring to get the user ref
+    const userId = user.value.uid ;
+    console.log(userId)
+    try { 
       this.recents = await getRecentChanges(userId);
     } catch (error) {
       console.error('Error fetching recent changes:', error);

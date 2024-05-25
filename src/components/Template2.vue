@@ -137,9 +137,8 @@
     },
     methods: {
       async saveAllChanges() {
-        const userId = 'currentUser'; // This should be dynamically set
         const templateID = 2;
-        const templateData = [userId, templateID, {
+        const templateData = [templateID, {
             personalInfo: this.templateData.personalInfo,
             education: this.templateData.education,
             experience: this.templateData.experience,
