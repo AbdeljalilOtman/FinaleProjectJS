@@ -1,5 +1,6 @@
 <template>
-    <div ref="componentContainer" class="container mt-4 p-4 bg-light rounded shadow-sm">
+   <div class="template-content">
+    <div ref="componentContainer" class="container">
       <div class="header row mb-4 border-bottom pb-3">
         <div class="profile-section col-md-3 text-center">
           <img :src="profilePictureUrl" alt="Profile Picture" class="profile-pic img-fluid rounded-circle mb-2" />
@@ -77,17 +78,23 @@
         </div>
       </draggable>
   
-      <div class="section text-center">
+
+    </div>
+    <div class="section text-center">
         <button @click="saveAllChanges" class="save-button btn btn-success btn-lg">Save Changes</button>
       </div>
-    </div>
+   </div>
+
+
   </template>
   
   <script>
+
+  // this is the template example
+
+  
   import Draggable from 'vue-draggable-next';
   import { VueDraggableNext } from 'vue-draggable-next';
-  import html2canvas from 'html2canvas';
-  import { saveChange } from '@/composables/useFirestore.js'; // Adjust the import path as needed
   
   export default {
     name: 'Template2',
@@ -132,29 +139,16 @@
       async saveAllChanges() {
         const userId = 'currentUser'; // This should be dynamically set
         const templateID = 2;
-        try {
-          await this.captureSnapshot(); // Capture snapshot before saving changes
-          await saveChange(userId, templateID, {
+        const templateData = [userId, templateID, {
             personalInfo: this.templateData.personalInfo,
             education: this.templateData.education,
             experience: this.templateData.experience,
             skills: this.templateData.skills,
-            snapshot: this.templateData.snapshot, // Pass snapshot data to saveChange function
-            profilePic: this.profilePictureUrl
-          });
-          alert('Changes saved successfully!');
-        } catch (error) {
-          console.error('Failed to save changes:', error);
-          alert('Failed to save changes.');
-        }
-      },
-      async captureSnapshot() {
-        try {
-          const canvas = await html2canvas(this.$refs.componentContainer);
-          this.templateData.snapshot = canvas.toDataURL('image/png');
-        } catch (error) {
-          console.error('Error capturing snapshot:', error);
-        }
+            profilePic : this.profilePictureUrl,
+            snapshot: '' // Pass snapshot data to saveChange function
+        }];
+        this.$emit('saveChanges', templateData);
+
       },
       onFileChange(event) {
         const file = event.target.files[0];
@@ -291,5 +285,9 @@
   .save-button:hover {
     background-color: #218838;
   }
+  .container {
+  margin: 0 auto;
+  max-width: 800px;
+}
   </style>
   
