@@ -26,7 +26,9 @@ const routes = [
   {
     path: '/dashboard/settings',
     name: 'Settings',
-    component: () => import('../views/Settings.vue')
+    component: () => import('../views/Settings.vue'),
+    meta: { requiresAuth: true }
+
   },
   {
     path: '/dashboard/templates/:id',
@@ -53,7 +55,7 @@ const router = createRouter({
   routes
 });
 
-const getCurrentUser = () => {
+export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = projectAuth.onAuthStateChanged(user => {
       unsubscribe();
@@ -75,4 +77,6 @@ router.beforeEach(async (to, from, next) => {
     next();
   }
 });
+
+
 export default router;

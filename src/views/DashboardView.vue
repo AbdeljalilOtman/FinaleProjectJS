@@ -1,9 +1,12 @@
 <template>
-  <div>
-
+  <div class="dashboard">
+    <div class="recent-work">
       <RecentWork />
+    </div>
+    <div class="templates">
       <Templates />
     </div>
+  </div>
 </template>
 
 <script>
@@ -24,7 +27,20 @@ export default {
   }
 };
 </script>
-
 <style scoped>
-/* Add your styles here */
+.dashboard {
+width: 100%;
+}
+
+.recent-work, .templates {
+  flex: 1; /* Adjust this to control how much space each component takes */
+  padding: 20px; /* Provides spacing around each component */
+}
+
+/* Add responsive adjustments if needed */
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+  }
+}
 </style>
