@@ -1,102 +1,142 @@
 <template>
-  <div>
+  <div class="component-container">
     <h2>Check out your recent actions</h2>
-    <div class="recent-works-container">
-      <div v-for="work in recents" :key="work.id" class="work-item">
-        <router-link :to="`/dashboard/recents/${work.id}`">
-          <div class="card">
-            <img :src="work.templateData.snapshot" alt="Snapshot of the component" class="snapshot-img">
-          </div>
-        </router-link>
+    <p class="description">Here you can find the most recent updates and activities you've performed.</p>
+    <div v-if="loading" class="loading">Loading recent actions...</div>
+    <div v-else ref="scrollContainer" class="recent-works-container">
+      <div class="work-items-wrapper">
+        <div v-for="work in recents" :key="work.id" class="work-item">
+          <router-link :to="`/dashboard/recents/${work.id}`">
+            <div class="card">
+              <img :src="work.templateData.snapshot" alt="Snapshot of the component" class="snapshot-img">
+            </div>
+          </router-link>
+        </div>
       </div>
     </div>
+    <p class="footer-text">Scroll horizontally to see more actions</p>
   </div>
 </template>
 
 <script>
+import PerfectScrollbar from 'perfect-scrollbar';
+import 'perfect-scrollbar/css/perfect-scrollbar.css';
 import { getRecentChanges } from '../composables/useFirestore.js';
 import getUser from '@/composables/getUser.js';
+
 export default {
   name: 'RecentWork',
   data() {
     return {
-      recents: []
+      recents: [],
+      scrollbar: null,
+      loading: true
     };
   },
   async mounted() {
-    const { user } = getUser(); // Use destructuring to get the user ref
-    const userId = user.value.uid ;
-    console.log(userId)
-    try { 
+    const { user } = getUser();
+    const userId = user.value.uid;
+    try {
       this.recents = await getRecentChanges(userId);
+      this.loading = false;
+      this.$nextTick(() => {
+        if (this.$refs.scrollContainer) {
+          this.scrollbar = new PerfectScrollbar(this.$refs.scrollContainer, { suppressScrollY: true });
+        }
+      });
     } catch (error) {
       console.error('Error fetching recent changes:', error);
+      this.loading = false;
+    }
+  },
+  beforeDestroy() {
+    if (this.scrollbar) {
+      this.scrollbar.destroy();
     }
   }
 };
 </script>
 
 <style scoped>
+.component-container {
+  background-color: #213555;
+  text-align: center;
+  padding: 20px;
+  border-radius: 20px;
+  border: 2px solid #213555;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+h2 {
+  color: #E5D283;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.description {
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.loading {
+  color: #E5D283;
+  font-size: 18px;
+}
+
 .recent-works-container {
+  position: relative;
+  overflow: hidden;
+  height: 260px;
+}
+
+.work-items-wrapper {
   display: flex;
-  overflow-x: auto; /* Enable horizontal scrolling */
-  gap: 20px;
-  padding-bottom: 10px; /* Add some space at the bottom for better visibility */
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.work-items-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.work-items-wrapper {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .work-item {
-  flex: 0 0 auto; /* Prevent items from shrinking */
-  width: 80%; /* Base width of each item */
-  max-width: 400px; /* Maximum width to ensure items are not too wide */
+  flex: 0 0 300px;
+  margin-right: 10px;
 }
 
 .card {
+  width: 100%;
+  height: 200px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  position: relative;
-  padding-bottom: 66.25%; /* Maintain a 16:9 aspect ratio */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .snapshot-img {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 10px 10px 0 0;
 }
 
-.card-info {
-  padding: 10px;
-  background-color: #f8f9fa;
-  border-top: 1px solid #dee2e6;
-  border-radius: 0 0 10px 10px;
-}
-
-/* Media queries for responsive design */
-@media (min-width: 576px) {
-  .work-item {
-    width: 60%; /* Adjust width for larger screens */
-  }
-}
-
-@media (min-width: 768px) {
-  .work-item {
-    width: 50%; /* Adjust width for larger screens */
-  }
-}
-
-@media (min-width: 992px) {
-  .work-item {
-    width: 33.33%; /* Adjust width for larger screens */
-  }
-}
-
-@media (min-width: 1200px) {
-  .work-item {
-    width: 25%; /* Adjust width for even larger screens */
-  }
+.footer-text {
+  color: #ffffff;
+  margin-top: 20px;
 }
 </style>

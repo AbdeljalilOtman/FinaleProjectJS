@@ -1,45 +1,70 @@
 <template>
   <div class="templates container mt-5">
     <h1 class="mb-4 text-center">Choose a Template</h1>
-    <div class="row">
-      <div v-for="(template, index) in templates" :key="template.id" class="template-item">
+    <p class="description text-white text-center mb-4">
+      Select from our range of professional and modern templates to get started quickly.
+    </p>
+    <swiper
+      :spaceBetween="30"
+      :centeredSlides="true"
+      :autoplay="{ delay: 2500, disableOnInteraction: false }"
+      :pagination="{ clickable: true }"
+      :navigation="true"
+      class="mySwiper"
+    >
+      <swiper-slide v-for="(template, index) in templates" :key="template.id">
+        <div class="template-item">
           <h5 class="card-title">{{ template.name }}</h5>
           <p class="card-text">{{ template.description }}</p>
           <div class="card">
-
-              <img :src="getImagePath(template.image)" class="snapshot-img" alt="Template image">
-
-          </div> 
-          <router-link class="btn btn-primary" :to="'/dashboard/templates/'+template.id">
+            <img :src="getImagePath(template.image)" class="snapshot-img" alt="Template image" />
+          </div>
+          <router-link class="btn btn-primary mt-2" :to="'/dashboard/templates/' + template.id">
             Select Template
           </router-link>
-
-      </div>
-    </div>
+        </div>
+      </swiper-slide>
+    </swiper>
+    <div class="swiper-pagination"></div>
+    <p class="footer-text text-white text-center mt-4">Drag to see more templates &gt;&gt;</p>
   </div>
 </template>
 
 <script>
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import { Autoplay, Pagination, Navigation } from 'swiper';
 
 export default {
   name: 'Templates',
+  components: {
+    Swiper,
+    SwiperSlide
+  },
   data() {
     return {
-      templates: [
-        {
-          id: 1,
-          name: 'Template1',
-          description: 'A modern and clean template.',
-          image: 'Template1.png'
-        },
-        {
-          id: 2,
-          name: 'Template2',
-          description: 'A professional and elegant template.',
-          image: 'Template2.png'
-        },
-      ]
+      templates: [],
+      modules: [Autoplay, Pagination, Navigation]
     };
+  },
+  async mounted() {
+    // Simulate data fetching
+    this.templates = [
+      {
+        id: 1,
+        name: 'Template1',
+        description: 'A modern and clean template.',
+        image: 'Template1.png'
+      },
+      {
+        id: 2,
+        name: 'Template2',
+        description: 'A professional and elegant template.',
+        image: 'Template2.png'
+      }
+    ];
   },
   methods: {
     getImagePath(image) {
@@ -50,66 +75,67 @@ export default {
 </script>
 
 <style scoped>
-.row {
-  display: flex;
-  overflow-x: auto;
-  gap: 20px;
-  padding-bottom: 10px;
+.templates {
+  background-color: #213555;
+  text-align: center;
+  padding: 20px;
+  border-radius: 20px;
+  border: 2px solid #213555;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: auto;
+  color: #E5D283;
+}
+
+h1, .description, .footer-text {
+  color: #E5D283;
+}
+
+.loading {
+  font-size: 18px;
+}
+
+.swiper-container {
+  padding-bottom: 20px;
 }
 
 .template-item {
-  flex: 0 0 auto;
-  width: 80%;
-  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: #314e74;
 }
 
 .card {
+  width: 50%;
+  height: 50vh;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   position: relative;
-  padding-bottom: 66.25%; /* Maintain a 16:9 aspect ratio */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .snapshot-img {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 10px 10px 0 0;
 }
 
-@media (min-width: 576px) {
-  .template-item {
-    width: 60%;
-  }
+.card-title, .card-text {
+  margin: 10px 0;
+  color: #f0f0f0;
 }
 
-@media (min-width: 768px) {
-  .template-item {
-    width: 50%;
-  }
-}
-
-@media (min-width: 992px) {
-  .template-item {
-    width: 33.33%;
-  }
-}
-
-@media (min-width: 1200px) {
-  .template-item {
-    width: 25%;
-  }
-}
-
-.templates {
-  margin-top: 20px;
-}
-.card:hover {
-  transform: scale(1.05);
-  transition: transform 0.2s;
+.btn {
+  background-color: #E5D283;
+  color: #000000;
+  border-color: #E5D283;
 }
 </style>

@@ -1,11 +1,12 @@
 <template>
   <div class="dashboard">
-    <div class="recent-work">
-      <RecentWork />
-    </div>
     <div class="templates">
       <Templates />
     </div>
+    <div class="recent-work">
+      <RecentWork />
+    </div>
+
   </div>
 </template>
 
@@ -30,11 +31,15 @@ export default {
 <style scoped>
 .dashboard {
 width: 100%;
+position: relative;
+overflow: auto;
 }
 
 .recent-work, .templates {
   flex: 1; /* Adjust this to control how much space each component takes */
-  padding: 20px; /* Provides spacing around each component */
+  padding-left: 5%; /* Provides spacing around each component */
+  padding-right: 5%;
+  
 }
 
 /* Add responsive adjustments if needed */

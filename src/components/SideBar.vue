@@ -35,7 +35,7 @@
         </router-link>
         <button class="button" @click="handleLogout">
           <span class="material-icons">exit_to_app</span>
-          <span the="text">Log Out</span>
+          <span class="text">Log Out</span>
         </button>
       </div>
     </aside>
@@ -77,16 +77,25 @@
   </script>
 <style lang="scss" scoped>
 aside {
+
+	height: 100vh; 
+	min-height: 200px; 
+	overflow: auto; 
+	position: -webkit-sticky; 
+	position: sticky; 
+	top: 10px; 
 	display: flex;
 	flex-direction: column;
-    
+	position: -webkit-sticky; 
+	position: sticky; 
+	top: 10px; 
 	background-color: var(--dark);
 	color: var(--light);
 
 	width: calc(2rem + 32px);
-	overflow: hidden;
-	min-height: 100vh;
+
 	padding: 1rem;
+
 
 	transition: 0.2s ease-in-out;
 
@@ -218,8 +227,9 @@ aside {
 	}
 
 	@media (max-width: 1024px) {
-		position: absolute;
-		z-index: 99;
+		position: -webkit-sticky; 
+	position: sticky; 
+			z-index: 99;
 	}
 }
 </style>

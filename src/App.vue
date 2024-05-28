@@ -41,10 +41,10 @@ export default {
 
 <style lang="scss">
 :root {
-  --primary: #ded74a;
+  --primary: #E5D283;
   --primary-alt: #22c55e;
-  --grey: #64748b;
-  --dark: #1e293b;
+  --grey: #4F709C;
+  --dark: #4F709C;
   --dark-alt: #334155;
   --light: #f1f5f9;
   --sidebar-width: 300px;
