@@ -1,106 +1,54 @@
 <template>
-    <nav class="navbar">
-      <div class="nav-container">
-        <div class="logo-container">
-          <i class="fas fa-user-circle logo"></i>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+          <a class="navbar-brand" href="#">ResumeBuilder</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <router-link class="nav-link" to="/">Home</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/welcome">Login/Sign Up</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/about">About Us</router-link>
+              </li>
+            </ul>
+          </div>
         </div>
-        <router-link to="/Dashboard" class="nav-link" active-class="active-link">
-          <i class="fas fa-tachometer-alt"></i> Dashboard
-        </router-link>
-        <!-- <router-link to="/Myresumees" class="nav-link" active-class="active-link">
-          <i class="fas fa-file-alt"></i> My Resumees
-        </router-link>
-        <router-link to="/Settings" class="nav-link" active-class="active-link">
-          <i class="fas fa-cog"></i> Settings
-        </router-link>
-        <router-link to="/About" class="nav-link" active-class="active-link">
-          <i class="fas fa-info-circle"></i> About
-        </router-link> -->
-      </div>
-    </nav>
-    <router-view/>
-  </template>
-  
-  <script>
-  export default {
-    name: 'navBar',
-    props: {}
-  }
-  </script>
-  
-  <style>
-  @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
-  
-  .navbar {
-    background: linear-gradient(130deg, #0a1a4f, #3757c1);
-    width: 250px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    padding: 20px 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .nav-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .logo-container {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .logo {
-    font-size: 3rem;
-    color: #fff;
-  }
-  
-  .nav-link {
-    color: #fff;
-    text-decoration: none;
-    padding: 15px 30px;
-    transition: all 0.3s;
-    width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-  }
-  
-  .nav-link i {
-    margin-right: 10px;
-  }
-  
-  .nav-link:hover,
-  .active-link {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: #ffd700;
-    padding-left: 40px;
-  }
-  
-  @media (max-width: 768px) {
-    .navbar {
-      width: 100%;
-      height: auto;
-      position: relative;
-    }
-  
-    .nav-container {
-      flex-direction: row;
-      justify-content: space-around;
-    }
-  
-    .nav-link {
-      width: auto;
-      margin-bottom: 10px;
-    }
-  }
-  </style>
-  
+  </nav>
+</template>
+
+<script>
+
+</script>
+
+<style>
+.navbar-brand {
+  font-size: 1.5rem;
+  padding-left: 20px; /* Increase padding for better alignment */
+}
+
+.navbar-nav .nav-item {
+  margin: 0 10px; /* Equal distance between each nav item */
+}
+
+.navbar-nav .nav-link {
+  padding: 0.5rem 1rem; /* Adjust padding for better visual appearance */
+}
+
+.navbar-nav .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Add hover effect */
+}
+</style>

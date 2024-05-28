@@ -1,37 +1,51 @@
 <template>
   <div class="dashboard">
-      <div class="recent">
-      </div>
-      <div class="templates">
-        <span>To create a new resume, choose a template</span>
-        <Template/>
-      </div>
+    <div class="templates">
+      <Templates />
     </div>
-    
+    <div class="recent-work">
+      <RecentWork />
+    </div>
+
+  </div>
 </template>
 
 <script>
-import Template from '../components/Template.vue';
+import Templates from '../components/Templates.vue';
+import RecentWork from '../components/RecentWork.vue';
 
 export default {
-  name: 'Dashboard',
+  name: 'dashboard',
   components: {
-    Template
+    Templates, RecentWork
   },
   data() {
     return {
-      templates: [
-        { id: 'gphXBLKAAJwTDRQ0uetH' },
-      ]
     };
+  },
+  mounted() {
+
   }
 };
 </script>
+<style scoped>
+.dashboard {
+width: 100%;
+position: relative;
+overflow: auto;
+}
 
-<!-- Add your styles here -->
-<style>
-.dashboard{
-  position: relative;
-  left: 250px;
+.recent-work, .templates {
+  flex: 1; /* Adjust this to control how much space each component takes */
+  padding-left: 5%; /* Provides spacing around each component */
+  padding-right: 5%;
+  
+}
+
+/* Add responsive adjustments if needed */
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+  }
 }
 </style>
