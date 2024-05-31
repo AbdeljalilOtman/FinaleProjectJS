@@ -6,6 +6,7 @@ import store from './store'
 // Import Bootstrap and BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle.js'; // This includes Popper.js
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const app = createApp(App)
 

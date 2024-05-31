@@ -9,7 +9,7 @@
         <a href="https://ma.linkedin.com/in/youness-anouar-129681231?trk=public_profile_samename-profile">LinkedIn Profile</a>
       </div>
       <div class="member">
-        <img src="abdeljalil_photo.jpg" alt="Abdeljalil Otman">
+        <img src="../assets/abdeljalil_otman.jpg" alt="Abdeljalil Otman">
         <h2>Abdeljalil Otman</h2>
         <p>Second-year student at Mohammed VI Polytechnic University - College Of Computing</p>
         <a href="https://www.linkedin.com/in/abdeljalil-otman/">LinkedIn Profile</a>
@@ -29,6 +29,8 @@ export default {
 
 <style scoped>
 .about {
+  min-height: 80vh;
+
   text-align: center;
 }
 

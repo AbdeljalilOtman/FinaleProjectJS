@@ -41,6 +41,7 @@
     .welcome {
       text-align: center;
       padding: 20px 0;
+      min-height: 80vh;
     }
     /* form styles */
     .welcome form {

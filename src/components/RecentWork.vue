@@ -1,7 +1,6 @@
 <template>
   <div class="component-container">
     <h2>Check out your recent actions</h2>
-    <p class="description">Here you can find the most recent updates and activities you've performed.</p>
     <div v-if="loading" class="loading">Loading recent actions...</div>
     <div v-else ref="scrollContainer" class="recent-works-container">
       <div class="work-items-wrapper">
@@ -58,44 +57,53 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
 .component-container {
-  background-color: #213555;
+  background: linear-gradient(150deg, #083b4f, #041f2a);
   text-align: center;
-  padding: 20px;
+  padding: 40px;
   border-radius: 20px;
-  border: 2px solid #213555;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid #083b4f;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   max-width: 1200px;
   margin: 20px auto;
+  color: #ffffff;
+  font-family: 'Nunito', sans-serif;
 }
 
 h2 {
-  color: #E5D283;
-  font-size: 24px;
-  margin-bottom: 10px;
+  color: #ffffff;
+  font-size: 28px;
+  margin-bottom: 15px;
 }
 
 .description {
   color: #ffffff;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  font-size: 18px;
 }
 
 .loading {
-  color: #E5D283;
-  font-size: 18px;
+  color: #FEAE6F;
+  font-size: 20px;
 }
 
 .recent-works-container {
   position: relative;
   overflow: hidden;
-  height: 260px;
+  height: 280px;
+  border-radius: 10px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .work-items-wrapper {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .work-items-wrapper::-webkit-scrollbar {
@@ -108,25 +116,26 @@ h2 {
 }
 
 .work-item {
-  flex: 0 0 300px;
-  margin-right: 10px;
+  flex: 0 0 320px;
+  margin-right: 15px;
 }
 
 .card {
   width: 100%;
-  height: 200px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 220px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
+  border-radius: 15px;
   overflow: hidden;
+  background-color: #fff;
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
 .snapshot-img {
@@ -137,6 +146,7 @@ h2 {
 
 .footer-text {
   color: #ffffff;
-  margin-top: 20px;
+  margin-top: 25px;
+  font-size: 16px;
 }
 </style>

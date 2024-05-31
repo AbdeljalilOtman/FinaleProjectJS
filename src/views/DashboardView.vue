@@ -1,11 +1,16 @@
 <template>
   <div class="dashboard">
-    <div class="templates">
+    <div class="bord">
+      <div class="templates">
       <Templates />
     </div>
-    <div class="recent-work">
+      <div class="recent-work">
       <RecentWork />
     </div>
+
+
+    </div>
+
 
   </div>
 </template>
@@ -33,12 +38,23 @@ export default {
 width: 100%;
 position: relative;
 overflow: auto;
+
+}
+
+.bord{
+  border-style:solid ;
+  border-width: 7px;
+  border-color: black;
+  margin: 3% 3% ;
+  border-radius: 20px;
+
 }
 
 .recent-work, .templates {
   flex: 1; /* Adjust this to control how much space each component takes */
-  padding-left: 5%; /* Provides spacing around each component */
-  padding-right: 5%;
+  padding-left: 3%; /* Provides spacing around each component */
+  padding-right: 3%;
+
   
 }
 

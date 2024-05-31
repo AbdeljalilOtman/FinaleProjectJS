@@ -11,23 +11,24 @@
           :key="template.id"
           :class="['carousel-item', { active: index === 0 }]"
         >
-          <img class="d-block w-100 snapshot-img" :src="getImagePath(template.image)" :alt="template.name + ' slide'">
-          <div class="carousel-caption d-none d-md-block">
-            <h5 class="card-title">{{ template.name }}</h5>
-            <p class="card-text">{{ template.description }}</p>
-            <router-link class="btn btn-primary mt-2" :to="'/dashboard/templates/' + template.id">
-              Select Template
-            </router-link>
-          </div>
+          <router-link class="carousel-link" :to="'/dashboard/templates/' + template.id">
+            <div class="image-wrapper">
+              <img class="d-block mx-auto snapshot-img" :src="getImagePath(template.image)" :alt="template.name + ' slide'">
+              <div class="overlay">
+                <div class="text">
+                  <h5 class="card-title">{{ template.name }}</h5>
+                  <p class="card-text">{{ template.description }}</p>
+                </div>
+              </div>
+            </div>
+          </router-link>
         </div>
       </div>
       <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
       </a>
       <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
       </a>
     </div>
   </div>
@@ -67,57 +68,94 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
 .templates {
-  background-color: #213555;
+  background: linear-gradient(120deg, #343434, #302e2e);
   text-align: center;
-  padding: 20px;
+  padding: 40px;
   border-radius: 20px;
-  border: 2px solid #213555;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid #ffffff;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   max-width: 1200px;
   margin: auto;
-  color: #E5D283;
+  color: #083b4f;
+  font-family: 'Nunito', sans-serif;
 }
 
-h1, .description, .footer-text {
-  color: #E5D283;
+h1, .description {
+  color: #ffffff;
+  font-weight: 700;
 }
 
 .carousel-item {
-  height: 50vh;
+  height: 60vh;
+}
+
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
 .snapshot-img {
   width: 100%;
-  height: 100%;
+  height: 60vh;
   object-fit: cover;
+  border-radius: 20px;
+  transition: transform 0.3s ease;
 }
 
-.card-title, .card-text {
-  color: #f0f0f0;
+.snapshot-img:hover {
+  transform: scale(1.05);
 }
 
-.btn {
-  background-color: #E5D283;
-  color: #000000;
-  border-color: #E5D283;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  background-color: #E5D283;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.image-wrapper:hover .overlay {
+  opacity: 1;
+}
+
+.text {
+  text-align: center;
+  padding: 20px;
+}
+
+.carousel-link {
+  display: block;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
 .carousel-control-prev-icon::before,
 .carousel-control-next-icon::before {
   content: '';
-  border: solid black;
+  border: solid #083b4f;
   border-width: 0 3px 3px 0;
   display: inline-block;
   padding: 5px;
