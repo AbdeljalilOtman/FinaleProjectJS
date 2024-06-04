@@ -1,72 +1,161 @@
 <template>
-    <div class="welcome container">
-      <div v-if="showLogin">
-        <h2>Login</h2>
-        <LoginForm @login="enterForum" />
-        <p>No account yet? <span @click="showLogin = false">Signup</span> instead.</p>
-      </div>
-      <div v-else>
-        <h2>Sign up</h2>
-        <SignupForm @signup="enterForum" />
-        <p>Already registered? <span @click="showLogin = true">Login</span> instead.</p>
-      </div>
+  <div class="welcome container">
+    <div v-if="showLogin" class="form-container">
+      <h2>Login</h2>
+      <LoginForm @login="enterForum" />
+      <p>No account yet? <span @click="showLogin = false">Signup</span> instead.</p>
     </div>
-  </template>
-  
-  <script>
-  import SignupForm from '../components/SignupForm.vue'
-  import LoginForm from '../components/LoginForm.vue'
-  
-  export default {
-    name : 'welcome',
-    components: { SignupForm, LoginForm },
-    data() {
-      return {
-        showLogin:true    }
-    },
-    methods: {
-      enterForum(){
-        this.$router.push('dashboard');
-      }
-      
-    },
-    mounted(){
-      
+    <div v-else class="form-container">
+      <h2>Sign up</h2>
+      <SignupForm @signup="enterForum" />
+      <p>Already registered? <span @click="showLogin = true">Login</span> instead.</p>
+    </div>
+  </div>
+</template>
+
+<script>
+import SignupForm from '../components/SignupForm.vue';
+import LoginForm from '../components/LoginForm.vue';
+
+export default {
+  name: 'welcome',
+  components: { SignupForm, LoginForm },
+  data() {
+    return {
+      showLogin: true
     }
-  
+  },
+  methods: {
+    enterForum() {
+      this.$router.push('dashboard');
+    }
   }
-  </script>
-  
-  <style>
-    .welcome {
-      text-align: center;
-      padding: 20px 0;
-      min-height: 80vh;
-    }
-    /* form styles */
-    .welcome form {
-      width: 300px;
-      margin: 20px auto;
-    }
-    .welcome label {
-      display: block;
-      margin: 20px 0 10px;
-    }
-    .welcome input {
-      width: 100%;
-      padding: 10px;
-      border-radius: 20px;
-      border: 1px solid #eee;
-      outline: none;
-      color: #999;
-      margin: 10px auto;
-    }
-    .welcome span{
-      font-weight: bold;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-    .welcome button {
-      margin: 20px auto;
-    }
-  </style>
+}
+</script>
+
+<style>
+.welcome {
+  min-height: 50vh;
+  display: flex;
+  width: 60%;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+  padding-top: 10vh;
+  padding-bottom: 10vh;
+  border-radius: 8px;
+  transition: width 0.3s, padding 0.3s;
+}
+
+.form-container {
+  width: 50%;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  transition: width 0.3s, padding 0.3s;
+}
+
+.welcome h2 {
+  margin-bottom: 20px;
+  color: #000000;
+}
+
+.welcome form {
+  width: 100%;
+  margin: auto;
+}
+
+.welcome label {
+  display: block;
+  margin-bottom: 10px;
+  color: #1D4E89;
+}
+
+.welcome input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 14px;
+  color: #666;
+}
+
+.welcome button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background-color: #A0855B;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.welcome span {
+  font-weight: bold;
+  color: #A0855B;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.toggle-form {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #666;
+}
+
+@media (max-width: 1024px) {
+  .welcome {
+    width: 80%;
+    padding: 5vh 2vh;
+  }
+
+  .form-container {
+    width: 70%;
+    padding: 15px;
+  }
+
+  .welcome h2 {
+    font-size: 1.5rem;
+  }
+
+  .welcome button {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .toggle-form {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .welcome {
+    width: 60%;
+    padding: 3vh 1vh;
+  }
+
+  .form-container {
+    width: 90%;
+    padding: 10px;
+  }
+
+  .welcome h2 {
+    font-size: 1.2rem;
+  }
+
+  .welcome button {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  .toggle-form {
+    font-size: 10px;
+  }
+}
+</style>

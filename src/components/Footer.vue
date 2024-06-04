@@ -1,13 +1,6 @@
 <template>
     <footer class="footer">
-      <div class="container">
-        <p class="footer-text">© 2024 ResumeBuilder. All Rights Reserved.</p>
-        <nav class="footer-nav">
-          <router-link to="/privacy">Privacy Policy</router-link>
-          <router-link to="/terms">Terms of Service</router-link>
-          <router-link to="/contact">Contact Us</router-link>
-        </nav>
-      </div>
+        <p class="footer-text">© 2024   QuickCV. All Rights Reserved.</p>
     </footer>
   </template>
   
@@ -21,35 +14,17 @@
   .footer {
     background-color: var(--primary);
     color: var(--light);
-    padding: 1rem 0;
+    padding: 2px 2px;
     text-align: center;
-  }
-  
-  .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    background-color: #A0855B;
   }
   
   .footer-text {
-    margin-bottom: 0.5rem;
     font-size: 1rem;
+    color: black;
   }
+
   
-  .footer-nav {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .footer-nav a {
-    color: var(--light);
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-  
-  .footer-nav a:hover {
-    color: var(--primary-alt);
-  }
+
   </style>
   
