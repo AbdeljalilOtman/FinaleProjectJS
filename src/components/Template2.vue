@@ -2,27 +2,52 @@
    <div class="template-content">
     <div ref="componentContainer" class="container">
       <div class="header row mb-4 border-bottom pb-3">
-        <div class="profile-section col-md-3 text-center">
-          <img :src="profilePictureUrl" alt="Profile Picture" class="profile-pic img-fluid rounded-circle mb-2" />
-          <input type="file" @change="onFileChange" accept="image/*" class="file-input form-control-file" />
-        </div>
-        <div class="personal-info col-md-9">
+          <img src="@/assets/UsefullImages/I1.jpg" alt="Profile Picture" class="profile-pic image-fluid" />
+          <!-- <input type="file" @change="onFileChange" accept="image/*" class="file-input form-control-file" /> -->
           <h1 class="h3 mb-3">
-            <input v-model="templateData.personalInfo.name" placeholder="Enter your name" class="input-large form-control form-control-lg" />
+            <input v-model="templateData.personalInfo.name" placeholder="Enter your name" class="input-small " />
           </h1>
-          <p class="mb-2">
-            <label class="form-label">Email:</label>
-            <input v-model="templateData.personalInfo.email" placeholder="Enter your email" class="input-small form-control" />
-          </p>
-          <p class="mb-2">
-            <label class="form-label">Phone:</label>
-            <input v-model="templateData.personalInfo.phone" placeholder="Enter your phone number" class="input-small form-control" />
-          </p>
-          <p class="mb-2">
-            <label class="form-label">Address:</label>
-            <input v-model="templateData.personalInfo.address" placeholder="Enter your address" class="input-small form-control" />
-          </p>
-        </div>
+          
+
+          <div class="">
+            <h4>Contact</h4>
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+		        <path fill="currentColor" d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2zm-2 0l-8 5l-8-5zm0 12H4V8l8 5l8-5z" />
+	          </svg>
+            <input v-model="templateData.personalInfo.email" placeholder="Enter your email" class="input-small " />
+
+            </div>
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 32 32"><path fill="currentColor" d="M16 18a5 5 0 1 1 5-5a5.006 5.006 0 0 1-5 5m0-8a3 3 0 1 0 3 3a3.003 3.003 0 0 0-3-3"/><path fill="currentColor" d="m16 30l-8.436-9.949a35 35 0 0 1-.348-.451A10.9 10.9 0 0 1 5 13a11 11 0 0 1 22 0a10.9 10.9 0 0 1-2.215 6.597l-.001.003s-.3.394-.345.447ZM8.813 18.395s.233.308.286.374L16 26.908l6.91-8.15c.044-.055.278-.365.279-.366A8.9 8.9 0 0 0 25 13a9 9 0 1 0-18 0a8.9 8.9 0 0 0 1.813 5.395"/></svg>
+              <input v-model="templateData.personalInfo.address" placeholder="Enter your address" class="input-small " />
+            </div>
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 256 256"><path fill="currentColor" d="m222.37 158.46l-47.11-21.11l-.13-.06a16 16 0 0 0-15.17 1.4a8 8 0 0 0-.75.56L134.87 160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16 16 0 0 0 1.32-15.06v-.12L97.54 33.64a16 16 0 0 0-16.62-9.52A56.26 56.26 0 0 0 32 80c0 79.4 64.6 144 144 144a56.26 56.26 0 0 0 55.88-48.92a16 16 0 0 0-9.51-16.62M176 208A128.14 128.14 0 0 1 48 80a40.2 40.2 0 0 1 34.87-40a.6.6 0 0 0 0 .12l21 47l-20.67 24.74a6 6 0 0 0-.57.77a16 16 0 0 0-1 15.7c9.06 18.53 27.73 37.06 46.46 46.11a16 16 0 0 0 15.75-1.14a8 8 0 0 0 .74-.56L168.89 152l47 21.05h.11A40.21 40.21 0 0 1 176 208"/></svg>
+              <input v-model="templateData.personalInfo.phone" placeholder="Enter your phone number" class="input-small " />
+              
+            </div>
+          
+          </div>
+          <div>
+            <h4>Skills</h4>
+
+            <div>
+              <strong>MS Word</strong>
+              <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: 32%"></div>
+              </div>
+            </div>
+
+          </div>
+          <div>
+            <h4>Strength</h4>
+
+          </div>
+          <div>
+            <h4>Interests</h4>
+
+          </div>
       </div>
   
       <draggable class="dragArea list-group w-100" :list="templateData.list" @change="log" :handle="'.drag-handle'">
@@ -132,7 +157,7 @@
           skills: this.initial.skills || ['HTML', 'CSS', 'JavaScript', 'Python', 'Java', 'React', 'Node.js'],
           snapshot: '',
         },
-        profilePictureUrl: this.initial.profilePic || '', // Default profile picture URL
+        profilePictureUrl: 'src/assets/UsefullImages/I1.jpg', // Default profile picture URL
       };
     },
     methods: {
@@ -170,14 +195,27 @@
     background: #f4f4f4;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    
+
   }
   
   .header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     border-bottom: 2px solid #ddd;
     padding-bottom: 20px;
     margin-bottom: 20px;
+
+    background: #243847;
+    width: 500px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: medium;
+    font-weight: 500;
+    color: white;
+    flex-direction: column;
+
   }
   
   .profile-section {
@@ -188,10 +226,16 @@
   }
   
   .profile-pic {
-    border-radius: 50%;
+    /* border-radius: 50%;
     width: 120px;
     height: 120px;
-    margin-bottom: 10px;
+    margin-bottom: 10px; */
+
+      width: 100px; /* Adjust the size as needed */
+      height: 100px;
+      border: 3px solid #fff; /* White border */
+      border-radius: 50%; /* Rounded shape */
+      overflow: hidden; /* Hide overflow if the image is larger than the container */
   }
   
   .file-input {
@@ -251,11 +295,17 @@
   
   .input-small {
     width: calc(100% - 20px);
-    padding: 6px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    margin-bottom: 5px;
+    padding: 3px;
+  
+    border-color: transparent;
+    background-color: transparent;
+    color: white;
+  }
+  .input-small:hover{
+    border: none;
+    border-color: transparent;
+    background-color: transparent;
+    color: white;
   }
   
   .skill {
@@ -287,6 +337,23 @@
   .container {
   margin: 0 auto;
   max-width: 800px;
+}
+h4{
+  color: #243847;
+  background-color: white;
+  width: max-content;
+  margin-left: -12px ;
+
+  border-right: 2px #cb9b57  solid;
+  border-top: 2px #cb9b57  solid;
+  border-bottom: 2px #cb9b57   solid;
+
+  border-top-right-radius: 5px ;
+  border-bottom-right-radius:20px;
+
+  padding-right: 10px;
+
+
 }
   </style>
   

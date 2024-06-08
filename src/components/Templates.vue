@@ -4,49 +4,41 @@
     <p class="description text-white text-center mb-4">
       Select from our range of professional and modern templates to get started quickly.
     </p>
-    <swiper
-      :spaceBetween="30"
-      :centeredSlides="true"
-      :autoplay="{ delay: 2500, disableOnInteraction: false }"
-      :pagination="{ clickable: true }"
-      :navigation="true"
-      class="mySwiper"
-    >
-      <swiper-slide v-for="(template, index) in templates" :key="template.id">
-        <div class="template-item">
-          <h5 class="card-title">{{ template.name }}</h5>
-          <p class="card-text">{{ template.description }}</p>
-          <div class="card">
-            <img :src="getImagePath(template.image)" class="snapshot-img" alt="Template image" />
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2500">
+      <div class="carousel-inner">
+        <div
+          v-for="(template, index) in templates"
+          :key="template.id"
+          :class="['carousel-item', { active: index === 0 }]"
+        >
+          <img class="d-block w-100 snapshot-img" :src="getImagePath(template.image)" :alt="template.name + ' slide'">
+          <div class="carousel-caption d-none d-md-block">
+            <h5 class="card-title">{{ template.name }}</h5>
+            <p class="card-text">{{ template.description }}</p>
+            <router-link class="btn btn-primary mt-2" :to="'/dashboard/templates/' + template.id">
+              Select Template
+            </router-link>
           </div>
-          <router-link class="btn btn-primary mt-2" :to="'/dashboard/templates/' + template.id">
-            Select Template
-          </router-link>
         </div>
-      </swiper-slide>
-    </swiper>
-    <div class="swiper-pagination"></div>
-    <p class="footer-text text-white text-center mt-4">Drag to see more templates &gt;&gt;</p>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
   </div>
 </template>
 
 <script>
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import { Autoplay, Pagination, Navigation } from 'swiper';
-
 export default {
   name: 'Templates',
-  components: {
-    Swiper,
-    SwiperSlide
-  },
   data() {
     return {
-      templates: [],
-      modules: [Autoplay, Pagination, Navigation]
+      templates: []
     };
   },
   async mounted() {
@@ -91,35 +83,8 @@ h1, .description, .footer-text {
   color: #E5D283;
 }
 
-.loading {
-  font-size: 18px;
-}
-
-.swiper-container {
-  padding-bottom: 20px;
-}
-
-.template-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  background-color: #314e74;
-}
-
-.card {
-  width: 50%;
+.carousel-item {
   height: 50vh;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  position: relative;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .snapshot-img {
@@ -129,7 +94,6 @@ h1, .description, .footer-text {
 }
 
 .card-title, .card-text {
-  margin: 10px 0;
   color: #f0f0f0;
 }
 
@@ -137,5 +101,33 @@ h1, .description, .footer-text {
   background-color: #E5D283;
   color: #000000;
   border-color: #E5D283;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: #E5D283;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-control-prev-icon::before,
+.carousel-control-next-icon::before {
+  content: '';
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 5px;
+}
+
+.carousel-control-prev-icon::before {
+  transform: rotate(135deg);
+}
+
+.carousel-control-next-icon::before {
+  transform: rotate(-45deg);
 }
 </style>
