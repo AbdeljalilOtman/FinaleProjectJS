@@ -1,6 +1,5 @@
 <template>
 	<aside :class="{ 'is-expanded': isExpanded }">
-	  <img src="@/assets/QuickCV2.jpg" alt="QuickCV Logo" class="logo" />
   
 	  <div class="menu-toggle-wrap">
 		<button class="menu-toggle" @click="toggleMenu">
@@ -76,11 +75,6 @@
   
   <style lang="scss" scoped>
   aside {
-	height: 100vh; 
-	min-height: 200px; 
-	overflow: auto; 
-	position: sticky; 
-	top: 10px; 
 	display: flex;
 	flex-direction: column;
 	background-color: var(--dark);
@@ -88,7 +82,12 @@
 	width: calc(2rem + 32px);
 	padding: 1rem;
 	transition: 0.2s ease-in-out;
-  
+	margin-right: 10%;
+    position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	z-index: 1;
 	.flex {
 	  flex: 1 1 0%;
 	}
@@ -187,10 +186,7 @@
 	  }
 	}
   
-	@media (max-width: 1024px) {
-	  position: sticky;
-	  z-index: 99;
-	}
+
   }
   </style>
   

@@ -1,5 +1,5 @@
 <template>
-  <component :is="templateComponent" @saveChanges="saveAllChanges"/>
+  <component :is="templateComponent" @saveChanges="saveAllChanges" style="margin-left: calc(2rem + 50px);" class="template-container" />
 </template>
 
 <script>
@@ -16,13 +16,6 @@ export default {
       snapshot: ''
     };
   },
-  mounted() {
-    this.id = this.$route.params.id;
-    this.loadTemplateComponent();
-  },
-  watch: {
-    '$route.params.id': 'loadTemplateComponent'
-  },
   methods: {
     async loadTemplateComponent() {
       this.id = this.$route.params.id;
@@ -37,9 +30,11 @@ export default {
     },
     async captureSnapshot() {
       try {
-        const container = this.$el.querySelector('.container'); // Adjusted reference to the correct element
+        const container = document.querySelector('.template-container');
         const canvas = await html2canvas(container);
         this.snapshot = canvas.toDataURL('image/png');
+        //console.log(this.snapshot);
+
       } catch (error) {
         console.error('Error capturing snapshot:', error);
       }
@@ -48,14 +43,15 @@ export default {
       try {
         const { user } = getUser(); // Use destructuring to get the user ref
         const userId = user.value ? user.value.uid : null; // Safely get the user ID
-        
+
         if (!userId) {
           throw new Error('User is not authenticated');
         }
 
-        console.log(userId);
+        //console.log(userId);
         await this.captureSnapshot(); // Capture snapshot before saving changes
         templateData[1].snapshot = this.snapshot; // Update snapshot in templateData
+        console.log(templateData[1]);
         await saveChange(userId, templateData[0], templateData[1]); // Pass the user ID to saveChange
         alert('Changes saved successfully!');
       } catch (error) {
@@ -63,6 +59,12 @@ export default {
         alert('Failed to save changes.');
       }
     }
+  },
+  watch: {
+    '$route.params.id': 'loadTemplateComponent'
+  },
+  created() {
+    this.loadTemplateComponent();
   }
 };
 </script>

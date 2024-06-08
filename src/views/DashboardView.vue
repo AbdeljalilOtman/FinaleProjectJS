@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard">
+  <div class="dashboard" style="  margin-left: calc(2rem + 50px);">
     <div class="bord">
       <div class="templates">
       <Templates />

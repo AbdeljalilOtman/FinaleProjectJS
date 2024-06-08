@@ -49,10 +49,10 @@ export default {
 :root {
   --primary: #001436;
   --primary-alt: #22c55e;
-  --grey: #b04125;
-  --dark: #ffffff;
-  --dark-alt: #b04125;
-  --light: #b04125;
+  --grey: #F1D6AB;
+  --dark: #38470B;
+  --dark-alt: #F1D6AB;
+  --light: #ffffff;
   --sidebar-width: 300px;
 }
 

@@ -1,39 +1,56 @@
 <template>
-  <nav class="navbar navbar-expand-lg shadow-sm">
-    <div class="container-fluid">
-      <router-link class="navbar-brand" to="/">
-        <img src="@/assets/QuickCV2.png" alt="QuickCV Logo" class="logo" />
-        <span class="brand-name">QuickCV</span>
+  <nav class="bg-green-800 shadow-sm">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <router-link class="flex items-center space-x-2" to="/">
+        <img src="@/assets/QuickCV2.png" alt="QuickCV Logo" class="h-12" />
+        <span class="text-lg font-bold text-white">QuickCV</span>
       </router-link>
       <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
+        class="text-white md:hidden focus:outline-none"
+        @click="toggleNav"
       >
-        <span class="navbar-toggler-icon"></span>
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16m-7 6h7"
+          ></path>
+        </svg>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto" style="  background-color: #38470B;">
-          <li class="nav-item" >
-            <router-link class="nav-link" to="/welcome">Get Started</router-link>
+      <div :class="{'block': isNavOpen, 'hidden': !isNavOpen}" class="w-full md:flex md:items-center md:w-auto">
+        <ul class="md:flex md:space-x-6 bg-green-800 md:bg-transparent">
+          <li class="md:inline-block block">
+            <router-link class="block py-2 px-4 text-white font-semibold hover:bg-yellow-400 hover:text-black rounded-md" to="/welcome">Get Started</router-link>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/about">About Us</router-link>
+          <li class="md:inline-block block">
+            <router-link class="block py-2 px-4 text-white font-semibold hover:bg-yellow-400 hover:text-black rounded-md" to="/about">About Us</router-link>
           </li>
         </ul>
       </div>
-
     </div>
   </nav>
 </template>
 
 <script>
 export default {
-  name: 'Navbar'
+  name: 'Navbar',
+  data() {
+    return {
+      isNavOpen: false
+    };
+  },
+  methods: {
+    toggleNav() {
+      this.isNavOpen = !this.isNavOpen;
+    }
+  }
 }
 </script>
 
@@ -41,108 +58,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
 
 .navbar {
-  background-color: #38470B;
   transition: background-color 0.3s;
   font-family: 'Nunito', sans-serif;
-  height: 10vh;
-}
-
-.navbar-brand {
-  font-size: 1.75rem;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-radius: 5px;
-  padding: 0.5rem;
-  transition: background-color 0.3s;
-  overflow: visible;
-  background-color: #F1D6AB;
-
-}
-
-.navbar-brand:hover {
-  background-color: #f8f9fa;
-}
-
-.logo {
-  max-height: 50px;
-  height: auto;
-}
-
-.brand-name {
-  color: #000000;
-  font-weight: 700;
-}
-
-.navbar-nav .nav-item {
-  margin: 0 15px;
-}
-
-.navbar-nav .nav-link {
-  transition: background-color 0.3s, color 0.3s;
-  font-weight: 700;
-  color: #f4f4f4;
-  padding: 0.5rem 1rem;
-}
-
-.navbar-nav .nav-link:hover, .navbar-nav .nav-link:focus {
-  background-color: #F1D6AB;
-  color: #000000;
-  border-radius: 5px;
-}
-
-.navbar-toggler {
-  border: none;
-}
-
-.navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FFD700' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28100%2C 100%2C 100%2C 0.5%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-}
-
-@media (max-width: 992px) {
-  .navbar-nav .nav-item {
-    margin: 0 10px;
-  }
-
-  .navbar-nav .nav-link {
-    padding: 0.8rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .navbar-brand {
-    font-size: 1.5rem;
-    padding: 0.3rem;
-  }
-
-  .logo {
-    max-height: 40px;
-  }
-
-  .navbar-nav .nav-item {
-    margin: 0 8px;
-  }
-
-  .navbar-nav .nav-link {
-    padding: 0.6rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .navbar-brand {
-    font-size: 1.25rem;
-  }
-
-  .logo {
-    max-height: 35px;
-  }
-
-  .navbar-nav .nav-item {
-    margin: 0 5px;
-  }
-
-  .navbar-nav .nav-link {
-    padding: 0.5rem;
-  }
 }
 </style>
