@@ -1,5 +1,5 @@
 <template>
-    <RecentWorkInstance :recentWorkId="id" />
+    <RecentWorkInstance :recentWorkId="id" style="margin-left: calc(2rem + 50px);"/>
   </template>
   
   <script>

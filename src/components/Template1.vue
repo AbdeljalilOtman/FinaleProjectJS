@@ -1,176 +1,196 @@
 <template>
-  <div class="template-content">
-    <div ref="componentContainer" class="container">
-      <div class="section personal-info">
-        <h1>
-          <input v-model="templateData.personalInfo.name" placeholder="Enter your name" />
-        </h1>
-        <p>
-          Email: <input v-model="templateData.personalInfo.email" placeholder="Enter your email" />
-        </p>
-        <p>
-          Phone: <input v-model="templateData.personalInfo.phone" placeholder="Enter your phone number" />
-        </p>
-        <p>
-          Address: <input v-model="templateData.personalInfo.address" placeholder="Enter your address" />
-        </p>
-      </div>
-      <div class="section education">
-        <h2>Education</h2>
-        <div>
-          <h3>
-            <input v-model="templateData.education.degree" placeholder="Enter your degree" />
-          </h3>
-          <p>
-            <input v-model="templateData.education.university" placeholder="Enter your university" />
-          </p>
-          <p>
-            Graduation Year: <input v-model="templateData.education.graduationYear" placeholder="Enter graduation year" />
+  <div class="max-w-full overflow-x-auto my-8 p-8 bg-white rounded-lg shadow-lg min-w-screen-lg">
+    <div class="flex">
+      <!-- Left Column -->
+      <div class="flex-none w-1/3 p-4 bg-gray-100 rounded-lg bg-black text-white">
+        <div class="flex items-center space-x-4 mb-6">
+          <img :src="templateData.personalInfo.profilePicture" alt="Profile Picture" class="w-24 h-24 rounded-full shadow-md" />
+          <input type="file" @change="onFileChange" accept="image/*" class="file-input form-control-file" />
+
+          <div>
+            <h1 class="text-3xl font-bold">
+              <input v-model="templateData.personalInfo.name" placeholder="Enter your name" class="w-full bg-transparent border-none focus:outline-none text-white" />
+            </h1>
+            <p class="text-xl text-gray-400">
+              <input v-model="templateData.jobTitle" placeholder="Enter your job title" class="w-full bg-transparent border-none focus:outline-none text-gray-400" />
+            </p>
+          </div>
+        </div>
+        <div class="mt-4 mb-6">
+          <h2 class="text-2xl font-semibold border-b pb-2 border-gold text-gold">Contact Info</h2>
+          <p class="text-sm text-gray-400 mt-2">
+            <input v-model="templateData.personalInfo.contactInfo" placeholder="Enter your contact info" class="w-full bg-transparent border-none focus:outline-none text-gray-400" />
           </p>
         </div>
-      </div>
-      <div class="section experience">
-        <h2>Work Experience</h2>
-        <div>
-          <h3>
-            <input v-model="templateData.experience.position" placeholder="Enter your position" />
-          </h3>
-          <p>
-            <input v-model="templateData.experience.company" placeholder="Enter company name" />
-          </p>
-          <p>
-            <input v-model="templateData.experience.dates" placeholder="Enter start and end date" />
-          </p>
-          <ul>
-            <li v-for="(responsibility, index) in templateData.experience.responsibilities" :key="index">
-              <input v-model="templateData.experience.responsibilities[index]" placeholder="Enter a responsibility" />
-            </li>
-          </ul>
+        <div class="mt-8">
+          <h2 class="text-2xl font-semibold border-b pb-2 border-gold text-gold">Skills</h2>
+          <div class="mt-4">
+            <draggable class="dragArea list-group w-100" :list="templateData.list" @change="log">
+              <div v-for="(skill, index) in templateData.skills" :key="index" class="flex items-center mt-2">
+                <input v-model="templateData.skills[index]" placeholder="Enter a skill" class="w-full bg-transparent border-none focus:outline-none text-white" />
+                <button @click="removeSkill(index)" class="text-red-500 hover:underline ml-2">Remove</button>
+              </div>
+            </draggable>
+
+            <button @click="addSkill" class="mt-4 text-gold hover:underline">Add Skill</button>
+          </div>
         </div>
       </div>
-      <div class="section skills">
-        <h2>Skills</h2>
-        <div>
-          <span v-for="(skill, index) in templateData.skills" :key="index" class="skill">
-            <input v-model="templateData.skills[index]" placeholder="Enter a skill" />
-          </span>
+
+      <!-- Right Column -->
+      <div class="flex-grow md:w-2/3 p-4">
+        <div class="mt-8 md:mt-0 mb-6">
+          <h2 class="text-2xl font-semibold border-b pb-2 text-black">Profile</h2>
+          <textarea v-model="templateData.profile" placeholder="Enter your profile" class="w-full mt-4 bg-transparent border-none focus:outline-none text-black"></textarea>
+        </div>
+        <div class="mt-8 mb-6">
+          <h2 class="text-2xl font-semibold border-b pb-2 text-black">Experience</h2>
+          <draggable class="dragArea list-group w-100" :list="templateData.list" @change="log">
+            <div v-for="(experience, index) in templateData.experiences" :key="index" class="mt-4 border-b pb-4">
+              <h3 class="text-xl font-semibold text-black">
+                <input v-model="experience.jobTitle" placeholder="Enter job title" class="w-full bg-transparent border-none focus:outline-none text-black" />
+              </h3>
+              <p class="text-sm text-gray-600">
+                <input v-model="experience.company" placeholder="Enter company" class="w-full bg-transparent border-none focus:outline-none text-gray-600" />
+                -
+                <input v-model="experience.period" placeholder="Enter period" class="w-full bg-transparent border-none focus:outline-none text-gray-600" />
+              </p>
+              <textarea v-model="experience.description" placeholder="Enter job description" class="w-full mt-2 bg-transparent border-none focus:outline-none text-black"></textarea>
+              <button @click="removeExperience(index)" class="text-red-500 hover:underline ml-2">Remove Experience</button>
+            </div>
+          </draggable>
+          <button @click="addExperience" class="mt-4 text-gold hover:underline">Add Experience</button>
+        </div>
+        <div class="mt-8">
+          <h2 class="text-2xl font-semibold border-b pb-2 text-black">Education</h2>
+          <draggable class="dragArea list-group w-100" :list="templateData.list" @change="log">
+            <div v-for="(education, index) in templateData.education" :key="index" class="mt-4 border-b pb-4">
+              <h3 class="text-xl font-semibold text-black">
+                <input v-model="education.degree" placeholder="Enter degree" class="w-full bg-transparent border-none focus:outline-none text-black" />
+              </h3>
+              <p class="text-sm text-gray-600">
+                <input v-model="education.institution" placeholder="Enter institution" class="w-full bg-transparent border-none focus:outline-none text-gray-600" />
+                -
+                <input v-model="education.period" placeholder="Enter period" class="w-full bg-transparent border-none focus:outline-none text-gray-600" />
+              </p>
+              <textarea v-model="education.description" placeholder="Enter description" class="w-full mt-2 bg-transparent border-none focus:outline-none text-black"></textarea>
+              <button @click="removeEducation(index)" class="text-red-500 hover:underline ml-2">Remove Education</button>
+            </div>
+          </draggable>
+          <button @click="addEducation" class="mt-4 text-gold hover:underline">Add Education</button>
         </div>
       </div>
     </div>
-    <div class="section">
-      <button @click="saveAllChanges" class="save-button">Save Changes</button>
+    <div class="mt-8">
+      <button @click="saveAllChanges" class="px-4 py-2 bg-gold text-black rounded hover:bg-yellow-600">Save Changes</button>
     </div>
   </div>
 </template>
 
 <script>
 
-
+import Draggable from 'vue-draggable-next';
+import { VueDraggableNext } from 'vue-draggable-next';
 export default {
   name: 'Template1',
+  components: {
+      Draggable,
+      draggable: VueDraggableNext,
+    },
   props: {
     initial: {
       type: Object,
-      default: () => ({}),
+      default: () => ({
+        personalInfo: {
+          profilePicture: 'https://via.placeholder.com/150',
+          name: 'John Doe',
+          contactInfo: 'john@example.com',
+        },
+        jobTitle: 'Software Engineer',
+        profile: 'An experienced software engineer...',
+        experiences: [
+          { jobTitle: 'Senior Software Engineer', company: 'Tech Corp', period: '2019 - Present', description: 'Developed and implemented software solutions that improved operations by 20%.' },
+        ],
+        education: [
+          { degree: 'B.S. in Computer Science', institution: 'University of Technology', period: '2011 - 2015', description: 'Graduated with honors and a focus in software engineering.' }
+        ],
+        skills: ['JavaScript']
+      }),
       required: false
     }
   },
   data() {
     return {
-      templateData : {
-          personalInfo: {
-            name: this.initial.personalInfo?.name || 'John Doe',
-            email: this.initial.personalInfo?.email || 'john@example.com',
-            phone: this.initial.personalInfo?.phone || '+1 123 456 7890',
-            address: this.initial.personalInfo?.address || '123 Main Street, City, Country'
-          },
-          education: {
-            degree: this.initial.education?.degree || 'Bachelor of Science in Computer Science',
-            university: this.initial.education?.university || 'University Name, City, Country',
-            graduationYear: this.initial.education?.graduationYear || '20XX'
-          },
-          experience: {
-            position: this.initial.experience?.position || 'Software Engineer',
-            company: this.initial.experience?.company || 'Company Name, City, Country',
-            dates: this.initial.experience?.dates || 'Start Date - End Date',
-            responsibilities: this.initial.experience?.responsibilities || ['Responsibility 1', 'Responsibility 2', 'Responsibility 3']
-          },
-          skills: this.initial.skills || ['HTML', 'CSS', 'JavaScript', 'Python', 'Java', 'React', 'Node.js'],
-          snapshot: ''
-      }
-
-    };
+      templateData: {
+        ...this.initial
+      },
+    }
   },
   methods: {
-     saveAllChanges() {
+    addSkill() {
+      this.templateData.skills.push('');
+    },
+    removeSkill(index) {
+      this.templateData.skills.splice(index, 1);
+    },
+    addExperience() {
+      this.templateData.experiences.push({
+        jobTitle: '',
+        company: '',
+        period: '',
+        description: ''
+      });
+    },
+    removeExperience(index) {
+      this.templateData.experiences.splice(index, 1);
+    },
+    addEducation() {
+      this.templateData.education.push({
+        degree: '',
+        institution: '',
+        period: '',
+        description: ''
+      });
+    },
+    removeEducation(index) {
+      this.templateData.education.splice(index, 1);
+    },
+    saveAllChanges() {
       const templateID = 1;
-      const templateData = [templateID, {
-            personalInfo: this.templateData.personalInfo,
-            education: this.templateData.education,
-            experience: this.templateData.experience,
-            skills: this.templateData.skills,
-            snapshot: '' // Pass snapshot data to saveChange function
-        }];
-      this.$emit('saveChanges', templateData);
-
-    }
-
-
+      const templateData = { ...this.templateData };
+      this.$emit('saveChanges', [templateID, templateData ]);
+    },
+    onFileChange(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            this.templateData.personalInfo.profilePicture = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      },
   }
-};
+}
 </script>
 
 <style scoped>
-.template-content {
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  margin-top: 20px;
+.bg-black {
+  background-color: #000000;
 }
-
-.container {
-  margin: 0 auto;
-  max-width: 800px;
+.text-black {
+  color: #000000;
 }
-
-.save-button {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 4px;
+.text-gold {
+  color: #FFD700;
 }
-
-.section {
-  margin-bottom: 20px;
+.border-gold {
+  border-color: #FFD700;
 }
-
-h1, h2, h3 {
-  color: #333;
+.bg-gold {
+  background-color: #FFD700;
 }
-
-p, input {
-  color: #666;
-  background: none;
-  border: none;
-  outline: none;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.skills .skill {
-  display: inline-block;
-  background-color: #e0e0e0;
-  border-radius: 4px;
-  padding: 5px 10px;
-  margin-right: 5px;
-  margin-bottom: 5px;
+.min-w-screen-lg {
+  min-width: 1024px;
 }
 </style>
