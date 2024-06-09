@@ -35,8 +35,10 @@
 </template>
 
 <script>
+
 export default {
   name: 'Templates',
+
   data() {
     return {
       templates: []

@@ -1,11 +1,13 @@
+
 <template>
-  <div class="max-w-full overflow-x-auto my-8 p-8 bg-white rounded-lg shadow-lg min-w-screen-lg">
+<editBar @editProfPic="updateProfPic" @addSection="addCustomSection"/>
+
+  <div class="max-w-full overflow-x-auto my-8 p-8 bg-white rounded-lg shadow-lg min-w-screen-lg " id="template">
     <div class="flex">
       <!-- Left Column -->
       <div class="flex-none w-1/3 p-4 bg-gray-100 rounded-lg bg-black text-white">
         <div class="flex items-center space-x-4 mb-6">
           <img :src="templateData.personalInfo.profilePicture" alt="Profile Picture" class="w-24 h-24 rounded-full shadow-md" />
-          <input type="file" @change="onFileChange" accept="image/*" class="file-input form-control-file" />
 
           <div>
             <h1 class="text-3xl font-bold">
@@ -35,6 +37,11 @@
             <button @click="addSkill" class="mt-4 text-gold hover:underline">Add Skill</button>
           </div>
         </div>
+        <div v-for="(section, index) in customSections" :key="index" class="mt-8">
+          <h2 class="text-2xl font-semibold border-b pb-2 border-gold text-gold">{{ section.name }}</h2>
+          <input v-model="section.content" placeholder="Enter content for {{ section.name }}" class="w-full bg-transparent border-none focus:outline-none text-white">
+        </div>
+
       </div>
 
       <!-- Right Column -->
@@ -88,7 +95,7 @@
 </template>
 
 <script>
-
+import editBar from './editBar.vue'
 import Draggable from 'vue-draggable-next';
 import { VueDraggableNext } from 'vue-draggable-next';
 export default {
@@ -96,6 +103,7 @@ export default {
   components: {
       Draggable,
       draggable: VueDraggableNext,
+      editBar
     },
   props: {
     initial: {
@@ -120,7 +128,8 @@ export default {
     }
   },
   data() {
-    return {
+    return {        
+      customSections: [] , // Array to hold custom sections
       templateData: {
         ...this.initial
       },
@@ -155,21 +164,27 @@ export default {
     removeEducation(index) {
       this.templateData.education.splice(index, 1);
     },
+    addCustomSection(sectionName) {
+      // Add a new custom section with empty content by default
+      this.customSections.push({
+        name: sectionName,
+        content: ''
+      });
+    },
     saveAllChanges() {
       const templateID = 1;
       const templateData = { ...this.templateData };
+      this.customSections.forEach(sec => {
+        templateData[sec.name] = sec.content;
+      });
+    //  console.log(templateData);
       this.$emit('saveChanges', [templateID, templateData ]);
+
     },
-    onFileChange(event) {
-        const file = event.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            this.templateData.personalInfo.profilePicture = e.target.result;
-          };
-          reader.readAsDataURL(file);
-        }
-      },
+    updateProfPic(profPic) {
+      this.templateData.personalInfo.profilePicture = profPic;
+    }
+
   }
 }
 </script>

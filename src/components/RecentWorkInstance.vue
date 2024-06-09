@@ -2,7 +2,7 @@
     <div ref="componentContainer" class="component-container">
       <component v-if="workingTemplate && templateData"
                  :is="workingTemplate"
-                 :initial="templateData" />
+                 :initial="templateData" @saveChanges="saveAllChanges" />
       <div v-else>
         <p v-if="isLoading">Loading...</p>
         <p v-else-if="loadError">Failed to load data. Please try again later.</p>
@@ -12,8 +12,10 @@
   
   <script>
   import { getRecentChangesById } from '../composables/useFirestore.js';
-  import html2canvas from 'html2canvas';
-  
+  import { saveChange } from '@/composables/useFirestore.js'; // Adjust the import path as needed
+import html2canvas from 'html2canvas';
+import getUser from '@/composables/getUser';
+
   export default {
     name: 'RecentWorkInstance',
     props: {
@@ -36,20 +38,13 @@
       console.log('Recent work ID:', this.recentWorkId);
       try {
         // Check localStorage for existing snapshot
-        const cachedSnapshot = localStorage.getItem(this.recentWorkId);
-        console.log(cachedSnapshot)
+
           this.work = await getRecentChangesById(userId, this.recentWorkId);
           if (this.work && this.work.templateId && this.work.templateData) {
             this.templateData = this.work.templateData;
             const component = await import(`../components/Template${this.work.templateId}.vue`);
             this.workingTemplate = component.default;
-            // Capture snapshot after template has been rendered with actual data
-            if (!cachedSnapshot) {
-
-                this.$nextTick(() => {
-                this.captureSnapshot();
-                });
-            }
+            
           } else {
             this.loadError = true;
           }
@@ -61,15 +56,42 @@
         this.isLoading = false;
       }
     },
+
     methods: {
-      captureSnapshot() {
-        html2canvas(this.$refs.componentContainer).then(canvas => {
-          const snapshotUrl = canvas.toDataURL('image/png');
-          localStorage.setItem(this.recentWorkId, snapshotUrl);
-        }).catch(error => {
+      async captureSnapshot() {
+        try {
+          const container = document.querySelector('#template');
+          console.log(container);
+          const canvas = await html2canvas(container);
+          this.snapshot = canvas.toDataURL('image/png');
+          //console.log(this.snapshot);       
+
+        } catch (error) {
           console.error('Error capturing snapshot:', error);
-        });
-      }
+        }
+      },
+      async saveAllChanges(templateData) {
+        try {
+          const { user } = getUser(); // Use destructuring to get the user ref
+          const userId = user.value ? user.value.uid : null; // Safely get the user ID
+
+          if (!userId) {
+            throw new Error('User is not authenticated');
+          }
+
+          //console.log(userId);
+          await this.captureSnapshot(); // Capture snapshot before saving changes
+          templateData[1].snapshot = this.snapshot; // Update snapshot in templateData
+
+          console.log(templateData[1]);
+          await saveChange(userId, templateData[0], templateData[1]); // Pass the user ID to saveChange
+          alert('Changes saved successfully!');
+          
+        } catch (error) {
+          console.error('Failed to save changes:', error);
+          alert('Failed to save changes.');
+        }
+    } 
     }
   };
   </script>

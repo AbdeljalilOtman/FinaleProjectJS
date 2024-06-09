@@ -1,5 +1,7 @@
 <template>
-  <component :is="templateComponent" @saveChanges="saveAllChanges" style="margin-left: calc(2rem + 50px);" class="template-container" />
+  <div class="template-view-container">
+    <component :is="templateComponent" @saveChanges="saveAllChanges" class="template-container" />
+  </div>
 </template>
 
 <script>
@@ -9,6 +11,7 @@ import getUser from '@/composables/getUser';
 
 export default {
   name: 'TemplateView',
+
   data() {
     return {
       id: '',
@@ -30,7 +33,8 @@ export default {
     },
     async captureSnapshot() {
       try {
-        const container = document.querySelector('.template-container');
+        const container = document.querySelector('#template');
+        console.log(container);
         const canvas = await html2canvas(container);
         this.snapshot = canvas.toDataURL('image/png');
         //console.log(this.snapshot);
@@ -51,9 +55,11 @@ export default {
         //console.log(userId);
         await this.captureSnapshot(); // Capture snapshot before saving changes
         templateData[1].snapshot = this.snapshot; // Update snapshot in templateData
+
         console.log(templateData[1]);
         await saveChange(userId, templateData[0], templateData[1]); // Pass the user ID to saveChange
         alert('Changes saved successfully!');
+        
       } catch (error) {
         console.error('Failed to save changes:', error);
         alert('Failed to save changes.');
@@ -70,5 +76,15 @@ export default {
 </script>
 
 <style scoped>
-/* Add your styles here */
+.template-view-container {
+  margin-left: 20%;
+  
+}
+
+.editBar {
+  
+}
+
+.template-container {
+}
 </style>

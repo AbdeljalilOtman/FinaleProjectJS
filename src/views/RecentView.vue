@@ -1,10 +1,11 @@
 <template>
-    <RecentWorkInstance :recentWorkId="id" style="margin-left: calc(2rem + 50px);"/>
+    <RecentWorkInstance :recentWorkId="id" style="margin-left: calc(2rem + 50px);" />
   </template>
   
   <script>
   import RecentWorkInstance from '../components/RecentWorkInstance.vue';
-  
+
+
   export default {
     name: 'RecentView',
     components: {
@@ -18,6 +19,9 @@
     created() {
       this.id = this.$route.params.id;
      // console.log(this.id)
+    },
+    methods: {
+
     }
   };
   </script>
