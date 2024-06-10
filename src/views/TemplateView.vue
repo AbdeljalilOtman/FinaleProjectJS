@@ -6,9 +6,13 @@
 import { saveChange } from '@/composables/useFirestore.js'; // Adjust the import path as needed
 import html2canvas from 'html2canvas';
 import getUser from '@/composables/getUser';
+import TextEditor from '@/components/TextEditor.vue'
 
 export default {
   name: 'TemplateView',
+  components:{
+    TextEditor
+  },
   data() {
     return {
       id: '',

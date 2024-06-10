@@ -12,27 +12,27 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
 // Import specific icons
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 // Import Font Awesome component
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-import VueQuillEditor from 'vue-quill-editor'
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
+// Import VueQuillEditor for Vue 3
+import { QuillEditor } from '@vueup/vue-quill';
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
+// Add icons to the library
 library.add(faPlus, faXmark);
-
-
 
 const app = createApp(App)
 
+// Register FontAwesomeIcon globally
 app.component('font-awesome-icon', FontAwesomeIcon);
+
+// Register QuillEditor globally
+app.component('QuillEditor', QuillEditor);
 
 app.use(store)
 app.use(router)
-app.use(VueQuillEditor)
 
 app.mount('#app')
