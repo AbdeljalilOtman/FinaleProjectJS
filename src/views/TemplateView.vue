@@ -30,10 +30,11 @@ export default {
     },
     async captureSnapshot() {
       try {
-        const container = document.querySelector('.template-container');
+        const container = document.querySelector('#template');
+        console.log(container);
+
         const canvas = await html2canvas(container);
         this.snapshot = canvas.toDataURL('image/png');
-        //console.log(this.snapshot);
 
       } catch (error) {
         console.error('Error capturing snapshot:', error);

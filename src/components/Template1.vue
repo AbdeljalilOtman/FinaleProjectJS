@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-full overflow-x-auto my-8 p-8 bg-white rounded-lg shadow-lg min-w-screen-lg">
+  <div class="max-w-full overflow-x-auto my-8 p-8 bg-white rounded-lg shadow-lg min-w-screen-lg" id="template">
     <div class="flex">
       <!-- Left Column -->
       <div class="flex-none w-1/3 p-4 bg-gray-100 rounded-lg bg-black text-white">
