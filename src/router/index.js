@@ -31,6 +31,13 @@ const routes = [
 
   },
   {
+    path: '/dashboard/profile',
+    name: 'Profile',
+    component: () => import('../views/Profile.vue'),
+    meta: { requiresAuth: true }
+
+  },
+  {
     path: '/dashboard/templates/:id',
     name: 'TemplateView',
     component: () => import('../views/TemplateView.vue'),

@@ -10,6 +10,9 @@
       <li>
         <button class="nav-button">Modify Sections</button>
       </li>
+      <li>
+        <button @click="exportPDF" class="nav-button">Save & Export</button>
+      </li>
     </ul>
   </nav>
 </template>
@@ -33,6 +36,9 @@ export default {
       if (sectionName) {
         this.$emit('addSection', sectionName);
       }
+    },
+    exportPDF() {
+      this.$emit('exportAsPDF');
     }
   }
 }

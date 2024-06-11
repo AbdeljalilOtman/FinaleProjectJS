@@ -4,11 +4,23 @@ import { projectFirestore } from '../firebase/config';
 
 const error = ref(null);
 
-async function AddUserName(id, Name, email) {
+async function AddUserName(id, Name, email,Birthdate) {
     const newDoc = projectFirestore.collection("users").doc(id);
     const disc = {
-        "Dname": Name,
-        "email": email,
+        profilePicture: 'https://via.placeholder.com/150',
+        userInfo: {
+          FullName: Name,
+          Email: email,
+          Birthdate: Birthdate,
+          Address: null,
+          Phone: null,
+          
+        },
+        usefulLinks: {
+          LinkedIn: null,
+          GitHub: null,
+        }
+
     };
 
     try {
@@ -20,7 +32,7 @@ async function AddUserName(id, Name, email) {
     }
 }
 
-const signup = async (email, password, displayName) => {
+const signup = async (email, password, FullName,Birthdate) => {
     error.value = null;
     try {
         const response = await projectAuth.createUserWithEmailAndPassword(email, password);
@@ -28,7 +40,7 @@ const signup = async (email, password, displayName) => {
             throw new Error('Could not complete signup');
         }
         const userId = response.user.uid; // Get the user ID from the response
-        await AddUserName(userId, displayName, email);
+        await AddUserName(userId, FullName, email,Birthdate);
     } catch (err) {
         console.error('Signup Error:', err.message);
         error.value = err.message;

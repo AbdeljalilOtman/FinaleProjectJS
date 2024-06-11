@@ -1,7 +1,7 @@
 import {projectFirestore} from '@/firebase/config.js';
 
 // Save a new change
-export const saveChange = async (userId, templateId, templateData) => {
+export const saveChange = async (userId, templateId, templateData,exported=false) => {
   try {
     const docRef = await projectFirestore.collection('userChanges').doc()
     console.log(templateData)
@@ -10,6 +10,7 @@ export const saveChange = async (userId, templateId, templateData) => {
       templateId : templateId,
       templateData: templateData,
       timestamp: new Date(),
+      exported: exported
     });
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
@@ -46,6 +47,15 @@ export const getRecentChangesById = async (userId, workId) => {
   }
 };
 
+export const getUserData = async (userId) => {
+  try {
+    const querySnapshot = await projectFirestore.collection('users').doc(userId).get();
+    return querySnapshot.data();
+  } catch (e) {
+    console.error("Error getting documents: ", e);
+    return [];
+  }
+}
 // Update an existing change
 export const updateChange = async (docId, updatedData) => {
   try {
@@ -55,3 +65,6 @@ export const updateChange = async (docId, updatedData) => {
     console.error("Error updating document: ", e);
   }
 };
+
+
+

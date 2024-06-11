@@ -7,7 +7,6 @@
 		</button>
 	  </div>
   
-	  <h3>Menu</h3>
 	  <div class="menu">
 		<router-link to="/dashboard/profile" class="button">
 		  <span class="material-icons">person</span>
@@ -77,7 +76,7 @@
   aside {
 	display: flex;
 	flex-direction: column;
-	background-color: var(--dark);
+	background: linear-gradient(10deg,#1e3c72 ,#2a5298);
 	color: var(--light);
 	width: calc(2rem + 32px);
 	padding: 1rem;

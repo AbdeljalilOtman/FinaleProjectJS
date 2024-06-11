@@ -58,6 +58,18 @@ export default {
         name: 'Template2',
         description: 'A professional and elegant template.',
         image: 'Template2.png'
+      },
+      {
+        id: 3,
+        name: 'Template3',
+        description: 'A professional template.',
+        image: 'cthulu.png'
+      },
+      {
+        id: 4,
+        name: 'Template4',
+        description: 'template4 .',
+        image: 'cthulu.png'
       }
     ];
   },

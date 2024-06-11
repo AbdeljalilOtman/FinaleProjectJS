@@ -1,9 +1,9 @@
 
 <template>
-<editBar @editProfPic="updateProfPic" @addSection="addCustomSection"/>
+<editBar @exportAsPDF="exportAsPDF"/>
 
-  <div class="max-w-full overflow-x-auto my-8 p-8 bg-white rounded-lg shadow-lg min-w-screen-lg " id="template">
-    <div class="flex">
+  <div class="max-w-full overflow-x-auto my-8 p-8 bg-white rounded-lg shadow-lg min-w-screen-lg " >
+    <div class="flex" id="template">
       <!-- Left Column -->
       <div class="flex-none w-1/3 p-4 bg-gray-100 rounded-lg bg-black text-white">
         <div class="flex items-center space-x-4 mb-6">
@@ -95,15 +95,17 @@
 </template>
 
 <script>
-import editBar from './editBar.vue'
 import Draggable from 'vue-draggable-next';
 import { VueDraggableNext } from 'vue-draggable-next';
+import editBar from './editBar.vue';
+
 export default {
   name: 'Template1',
   components: {
       Draggable,
       draggable: VueDraggableNext,
       editBar
+      
     },
   props: {
     initial: {
@@ -178,12 +180,21 @@ export default {
         templateData[sec.name] = sec.content;
       });
     //  console.log(templateData);
-      this.$emit('saveChanges', [templateID, templateData ]);
+      this.$emit('saveChanges', [templateID, templateData ,false]);
 
     },
     updateProfPic(profPic) {
       this.templateData.personalInfo.profilePicture = profPic;
+    },
+    exportAsPDF() {
+      const templateID = 1;
+      const templateData = { ...this.templateData };
+      this.customSections.forEach(sec => {
+        templateData[sec.name] = sec.content;
+      });
+      this.$emit('exportAsPDF', [templateID, templateData ,true]);
     }
+
 
   }
 }

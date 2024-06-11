@@ -47,17 +47,18 @@ export default {
 
 <style lang="scss">
 :root {
-  --primary: #001436;
+  --primary: #f17421;
   --primary-alt: #22c55e;
-  --grey: #F1D6AB;
-  --dark: #38470B;
+  --grey: #f17421;
+  --dark: #2563eb;
+  --darkk : #374151
   --dark-alt: #F1D6AB;
   --light: #ffffff;
   --sidebar-width: 300px;
 }
 
 .default {
-  background: linear-gradient(120deg, #ffffff, #F9F6F2);
+  background-color:white;
 }
 
 * {

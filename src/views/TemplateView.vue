@@ -1,6 +1,7 @@
 <template>
   <div class="template-view-container">
-    <component :is="templateComponent" @saveChanges="saveAllChanges" class="template-container" />
+
+    <component :is="templateComponent" @saveChanges="saveAllChanges" @exportAsPDF="exportAsPDF" class="template-container" />
   </div>
 </template>
 
@@ -8,6 +9,7 @@
 import { saveChange } from '@/composables/useFirestore.js'; // Adjust the import path as needed
 import html2canvas from 'html2canvas';
 import getUser from '@/composables/getUser';
+import html2pdf from 'html2pdf.js'
 
 export default {
   name: 'TemplateView',
@@ -55,16 +57,40 @@ export default {
         //console.log(userId);
         await this.captureSnapshot(); // Capture snapshot before saving changes
         templateData[1].snapshot = this.snapshot; // Update snapshot in templateData
+        let exported = templateData[2];
 
-        console.log(templateData[1]);
-        await saveChange(userId, templateData[0], templateData[1]); // Pass the user ID to saveChange
+        console.log(templateData);
+
+        await saveChange(userId, templateData[0], templateData[1],exported); // Pass the user ID to saveChange
         alert('Changes saved successfully!');
-        
+
       } catch (error) {
         console.error('Failed to save changes:', error);
         alert('Failed to save changes.');
       }
+      
+    },
+    async exportAsPDF(templateData) {
+        // Select the template container
+        const template = document.querySelector('#template');
+        // Options for html2pdf
+        const options = {
+          margin: 0.5,
+          filename: 'template.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+        
+      await this.saveAllChanges(templateData);
+
+      html2pdf().from(template).set(options).save();
+      console.log('PDF exported successfully!');
+
+       
+
     }
+
   },
   watch: {
     '$route.params.id': 'loadTemplateComponent'
