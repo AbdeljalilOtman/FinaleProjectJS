@@ -12,7 +12,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
 // Import specific icons
-import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faXmark , faPhone, faEnvelope} from '@fortawesome/free-solid-svg-icons';
 
 // Import Font Awesome component
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -22,7 +22,7 @@ import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 // Add icons to the library
-library.add(faPlus, faXmark);
+library.add(faPlus, faXmark, faPhone, faEnvelope);
 
 const app = createApp(App)
 

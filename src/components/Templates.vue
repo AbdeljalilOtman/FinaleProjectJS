@@ -61,13 +61,7 @@ export default {
         id: 3,
         name: 'Template3',
         description: 'A professional template.',
-        image: 'cthulu.png'
-      },
-      {
-        id: 4,
-        name: 'Template4',
-        description: 'template4 .',
-        image: 'cthulu.png'
+        image: 'ShotTemplate1.png'
       },
       {
         id: 5,

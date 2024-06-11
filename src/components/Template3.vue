@@ -19,8 +19,7 @@
           <draggable>
             <div v-for="item in resumeData.sections" :key="item.id">
               <div v-for="(value, key) in item" class="Draggable">
-                <h2 v-if="key === 'title'">{{ value }}</h2>
-                <div class="line"></div>
+                <strong><h2 v-if="key === 'title'">{{ value }}</h2></strong>
                 <p v-if="key === 'content'">{{ value }}</p>
               </div>
             </div>
@@ -125,6 +124,15 @@ body {
   font: 16px Helvetica, Sans-Serif;
   line-height: 24px;
   background: url('../assets/noise.jpg');
+}
+
+img{
+  width: 100px;
+  border: none;
+  border-radius: 10%;
+  position: relative;
+  top: 0;
+  right: 0;
 }
 
 .Draggable {

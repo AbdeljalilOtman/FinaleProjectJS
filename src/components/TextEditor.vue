@@ -70,7 +70,8 @@ export default {
           content: "Withering Madness University - Planet Vhoorl \n major: Public Relations \n minor: Scale Tending"
         }
       ],
-      isExpanded: false
+      isExpanded: false,
+      nextId: 6 // Initialize nextId to a value greater than the current maximum id
     };
   },
 
@@ -87,7 +88,7 @@ export default {
     },
     addSection(title) {
       this.sections.push({
-        id: this.sections.length, // Generate unique ID
+        id: this.nextId++, // Use nextId for id and increment it
         title: title,
         content: ''
       });
@@ -100,6 +101,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style scoped>
