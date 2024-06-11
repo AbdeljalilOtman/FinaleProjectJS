@@ -64,9 +64,9 @@ export default {
         image: 'ShotTemplate1.png'
       },
       {
-        id: 5,
-        name: 'Template5',
-        description: 'template5 .',
+        id: 4,
+        name: 'Template4',
+        description: 'template4 .',
         image: 'cthulu.png'
       }
     ];
