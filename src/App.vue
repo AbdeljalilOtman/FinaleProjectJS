@@ -53,7 +53,7 @@ export default {
   --dark: #2563eb;
   --darkk : #374151
   --dark-alt: #F1D6AB;
-  --light: #ffffff;
+  --light: #F3F7EC;
   --sidebar-width: 300px;
 }
 
@@ -81,6 +81,7 @@ button {
 }
 
 .app {
+  background-color: #F3F7EC;
   .content {
     display: flex;
   }

@@ -38,22 +38,19 @@ export default {
 width: 100%;
 position: relative;
 overflow: auto;
-
+background-color: F3F7EC;
 }
 
-.bord{
-  border-style:solid ;
-  border-width: 7px;
-  border-color: black;
-  margin: 3% 3% ;
-  border-radius: 20px;
-
+.bord {
+  margin: 3% 3%;
 }
 
 .recent-work, .templates {
   flex: 1; /* Adjust this to control how much space each component takes */
-  padding-left: 3%; /* Provides spacing around each component */
-  padding-right: 3%;
+
+  box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.1); /* Example shadow */
+  border-radius: 20px;
+
 
   
 }

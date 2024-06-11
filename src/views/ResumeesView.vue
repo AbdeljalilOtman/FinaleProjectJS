@@ -7,7 +7,7 @@
             <li class="breadcrumb-item active" aria-current="page">My Resumees</li>
           </ol>
     </nav>
-    <h1 class="page-title">Check out your Resumees</h1>
+    <h1 class="page-title">Check out exported resumes </h1>
     <div class="cards-container">
       <div class="resume-card" v-for="resumee in resumees" :key="resumee.templateId">
         <div class="card-header">
@@ -55,9 +55,10 @@ export default {
   
   <style>
   .page-title {
-    color:orangered;
+    color:rgb(1, 1, 1);
     font-size:10vh;
-    font-weight: 300;
+    font-weight: 700;
+    font-family:'Times New Roman', Times, serif;
     text-align: center;
   }
   .resumee-container {
@@ -86,7 +87,7 @@ export default {
   }
   
   .card-header {
-    background-color: #0056b3;
+    background-color: #00346c;
     color: white;
     padding: 10px 15px;
     font-size: 16px;
@@ -101,7 +102,7 @@ export default {
   .details-link {
     display: inline-block;
     margin-top: 10px;
-    background-color: #007bff;
+    background-color: #357200;
     color: white;
     padding: 8px 12px;
     text-align: center;
@@ -111,7 +112,7 @@ export default {
   }
   
   .details-link:hover {
-    background-color: #0056b3;
+    background-color: #00162e;
   }
   </style>
   

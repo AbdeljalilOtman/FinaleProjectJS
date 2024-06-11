@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer w-full mt-4">
+  <footer class="footer mt-4">
     <div class="about">
       <h1>This application was made by Computer Science Students</h1>
       <div class="members">
@@ -38,9 +38,7 @@
 
         </div>
       </div>
-      <div class="college-logo">
-        <img src="https://cc.um6p.ma/assets/images/logo-cc-v2.png" alt="College of Computing Logo">
-      </div> 
+
     </div>
     <p class="footer-text">© 2024 QuickCV. All Rights Reserved.</p>
   </footer>
@@ -56,31 +54,30 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
 
 .footer {
-  background: linear-gradient(to right, #1e3c72, #2a5298);
+  background: linear-gradient(to right, #1e3c72, #101e36);
   color: #fff;
-  padding:  2px;
   text-align: center;
-  margin-left: calc(2rem + 32px);
   width: 100%;
+  height: 50vh;
   
 }
 
 .footer-text {
-  font-size: 1rem;
   color: #fff;
 }
 
 .about {
-  min-height: 80vh;
+  height: 85%;
   text-align: center;
   font-family: 'Nunito', sans-serif;
   padding: 40px 20px;
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   color: white;
-  margin-bottom: 40px;
+  font-family: 'Times New Roman', Times, serif;
+  margin-bottom: 10px;
 }
 
 .members {
@@ -91,7 +88,7 @@ h1 {
 }
 
 .member {
-  color: #0c0c0c;
+  color: #ffffff;
   padding: 20px;
   transition: transform 0.3s;
   text-align: center;

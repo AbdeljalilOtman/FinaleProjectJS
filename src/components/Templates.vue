@@ -85,11 +85,10 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
 
 .templates {
-  background: linear-gradient(120deg, #343434, #302e2e);
+  background: linear-gradient(120deg, #002D62, rgb(127, 157, 248));
   text-align: center;
   padding: 40px;
   border-radius: 20px;
-  border: 2px solid #ffffff;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   max-width: 1200px;
   margin: auto;
@@ -156,7 +155,7 @@ h1, .description {
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-  background-color: #FFFFFF;
+  background-color: #d2cdca78;
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -165,11 +164,15 @@ h1, .description {
   justify-content: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+  background-color: #f17421;
 
+} 
 .carousel-control-prev-icon::before,
 .carousel-control-next-icon::before {
   content: '';
-  border: solid #083b4f;
+  border: solid #e4e4e4;
   border-width: 0 3px 3px 0;
   display: inline-block;
   padding: 5px;

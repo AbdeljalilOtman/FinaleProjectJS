@@ -60,32 +60,31 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
 
 .component-container {
-  background: linear-gradient(150deg, #083b4f, #041f2a);
+  background: linear-gradient(150deg, #ffffff, #ffffff);
   text-align: center;
   padding: 40px;
   border-radius: 20px;
-  border: 2px solid #083b4f;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   max-width: 1200px;
   margin: 20px auto;
-  color: #ffffff;
+  color: #000000;
   font-family: 'Nunito', sans-serif;
 }
 
 h2 {
-  color: #ffffff;
+  color: #000000;
   font-size: 28px;
   margin-bottom: 15px;
 }
 
 .description {
-  color: #ffffff;
+  color: #000000;
   margin-bottom: 25px;
   font-size: 18px;
 }
 
 .loading {
-  color: #FEAE6F;
+  color: #041345;
   font-size: 20px;
 }
 

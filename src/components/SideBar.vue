@@ -25,10 +25,7 @@
 	  <div class="flex"></div>
   
 	  <div class="menu">
-		<router-link to="/dashboard/settings" class="button">
-		  <span class="material-icons">settings</span>
-		  <span class="text">Settings</span>
-		</router-link>
+
 		<button class="button" @click="handleLogout">
 		  <span class="material-icons">exit_to_app</span>
 		  <span class="text">Log Out</span>

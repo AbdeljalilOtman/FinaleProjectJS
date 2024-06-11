@@ -1,8 +1,9 @@
 <template>
   <nav class="edit-bar top-0 z-10 shadow-sm">
     <ul class="container flex justify-between items-center space-x-6">
-      <li>
-        <input type="file" @change="onFileChange" accept="image/*" class="file-input form-control-file" />
+      <li  class="nav-button">
+        <label for="file-input">Edit Profile Picture :</label>
+        <input type="file" @change="onFileChange" placeholder="Edit Profile Picture" accept="image/*" class="file-input form-control-file" />
       </li>
       <li>
         <button @click="saveAllChanges" class="nav-button">Save</button>
@@ -42,12 +43,14 @@ export default {
 
   <style scoped>
   .edit-bar {
-    background: linear-gradient(to right, #932c00, #521800); /* Better green color */
+    background:transparent;/* Better green color */
     width: 210mm; /* or 8.27in */
     height:10vh; /* Less height */
     top: 0;
     z-index: 10;
     border-radius: 20px;
+    position: sticky;
+    
 
   }
   
@@ -57,22 +60,28 @@ export default {
     align-items: center;
     height: 100%;
   }
-  
+  label{
+      font-weight: 700;
+    
+  }
+  input{
+    cursor: pointer;
+  }
   .nav-button {
     padding: 0.5rem 1rem;
 
-    color: white;
+    background-color: #2564eb3a;
     font-weight: bold;
-    background-color: transparent;
-    border: none;
+    border-radius: 20px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
   }
   
   .nav-button:hover {
-    background-color: #000000; 
+    background-color: #2564eb;
     color: #ffffff;
     border-radius: 20px;
   }
+
   </style>
   
