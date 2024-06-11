@@ -3,7 +3,7 @@
     <body>
       <div id="template">
         <div id="contact-info" class="vcard">
-          <img src="../assets/cthulu.png" alt="Photo of Cthulu" id="pic" />
+          <img src="../components/images/avatar.jpg" alt="Photo of Cthulu" id="pic" />
           <h1 class="fn">{{ resumeData.contactName }}</h1>
           <p>
             Cell: <span class="tel">{{ resumeData.contactCell }}</span><br />
