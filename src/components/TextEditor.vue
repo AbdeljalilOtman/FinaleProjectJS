@@ -104,59 +104,59 @@ export default {
 
 <style scoped>
 .editor-sidebar {
-  position: fixed; /* Fixed position to stick to the side */
-  right: 0; /* Align to the right side of the screen */
-  top: 0; /* Start from the top */
-  width: 50px; /* Collapsed width */
-  background-color: #e6f1ff; /* Light blue background */
-  height: 100%; /* Full height */
-  border-left: 3px solid #005cbf; /* Dark blue border */
-  transition: width 0.3s ease-in-out; /* Smooth transition for width */
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 50px;
+  height: 100%;
+  background-color: #e6f1ff;
+  border-left: 3px solid #005cbf;
+  transition: width 0.3s ease-in-out;
   overflow: hidden;
 }
 
 .editor-sidebar.expanded {
-  width: 300px; /* Set the desired expanded width */
+  width: 300px;
 }
 
 .form-container {
   display: flex;
   flex-direction: column;
-  opacity: 0; /* Start with hidden content */
-  transition: opacity 0.3s ease-in-out; /* Smooth transition for opacity */
-  overflow-y: auto; /* Add scroll for long content */
-  height: calc(100% - 60px); /* Adjust height to leave space for the button */
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  overflow-y: auto;
+  height: 100%;
 }
 
 .editor-sidebar.expanded .form-container {
-  opacity: 1; /* Show content when expanded */
+  opacity: 1;
 }
 
 label {
-  color: #005cbf; /* Dark blue text */
+  color: #005cbf;
   font-weight: bold;
   margin-bottom: 8px;
 }
 
 .input-field {
-  border: 1px solid #005cbf; /* Dark blue border */
+  border: 1px solid #005cbf;
   padding: 8px;
   margin-bottom: 10px;
-  border-radius: 10px; /* Rounded corners */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 textarea {
-  border: 1px solid #005cbf; /* Dark blue border */
+  border: 1px solid #005cbf;
   padding: 8px;
   margin-bottom: 10px;
-  border-radius: 10px; /* Rounded corners */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .button {
-  background-color: #005cbf; /* Dark blue background */
-  color: #fff; /* White text */
+  background-color: #005cbf;
+  color: #fff;
   padding: 10px;
   border: none;
   border-radius: 4px;
@@ -165,42 +165,42 @@ textarea {
 }
 
 .add-button {
-  background-color: #00aaff; /* Light blue background */
+  background-color: #00aaff;
 }
 
 .apply-button {
-  background-color: #ff6600; /* Orange background */
+  background-color: #ff6600;
 }
 
 .delete-button {
-  background-color: #ff3333; /* Red background */
+  background-color: #ff3333;
 }
 
 .button:hover {
-  background-color: #004080; /* Darker shade for hover effect */
+  background-color: #004080;
 }
 
 .toggle-button {
-  background-color: #005cbf; /* Dark blue background */
-  color: #fff; /* White text */
-  padding: 10px;
+  background-color: #005cbf;
+  color: #fff;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
-  position: absolute; /* Position the toggle button */
-  right: 10px; /* Align to the right side */
-  top: 10px; /* Align to the top */
-  transition: right 0.3s ease-in-out, top 0.3s ease-in-out, width 0.3s ease-in-out, height 0.3s ease-in-out; /* Smooth transition for position and size */
-  width: 30px; /* Small rounded square */
-  height: 30px; /* Small rounded square */
-  border-radius: 50%; /* Rounded shape */
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: all 0.3s ease-in-out;
 }
 
 .toggle-button.inside {
-  right: 10px; /* Adjust position inside the sidebar when expanded */
-  top: 10px; /* Keep button at the top inside the expanded sidebar */
-  width: auto; /* Auto width for expanded state */
-  height: auto; /* Auto height for expanded state */
-  border-radius: 4px; /* Default border radius */
+  right: 10px;
+  top: 10px;
+  width: auto;
+  height: auto;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: rgba(0, 92, 191, 0.8); /* Slightly transparent */
 }
 </style>

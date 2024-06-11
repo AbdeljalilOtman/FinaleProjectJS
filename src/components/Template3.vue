@@ -1,40 +1,44 @@
 <template>
-  <body>
-    <div id="template">
-      <div id="contact-info" class="vcard">
-        <img src="../assets/cthulu.png" alt="Photo of Cthulu" id="pic" />
-        <!-- Microformats! -->
-        <h1 class="fn">{{ resumeData.contactName }}</h1>
-        <p>
-          Cell: <span class="tel">{{ resumeData.contactCell }}</span><br />
-          Email: <a class="email" :href="'mailto:' + resumeData.contactEmail">{{ resumeData.contactEmail }}</a>
-        </p>
-        <div id="objective">
-          <p>{{ resumeData.objective }}</p>
+  <div>
+    <body>
+      <div id="template">
+        <div id="contact-info" class="vcard">
+          <img src="../assets/cthulu.png" alt="Photo of Cthulu" id="pic" />
+          <h1 class="fn">{{ resumeData.contactName }}</h1>
+          <p>
+            Cell: <span class="tel">{{ resumeData.contactCell }}</span><br />
+            Email: <a class="email" :href="'mailto:' + resumeData.contactEmail">{{ resumeData.contactEmail }}</a>
+          </p>
+          <div id="objective">
+            <p>{{ resumeData.objective }}</p>
+          </div>
+        </div>
+
+        <div class="clear"></div>
+        <div class="item">
+          <draggable>
+            <div v-for="item in resumeData.sections" :key="item.id">
+              <div v-for="(value, key) in item" class="Draggable">
+                <h2 v-if="key === 'title'">{{ value }}</h2>
+                <div class="line"></div>
+                <p v-if="key === 'content'">{{ value }}</p>
+              </div>
+            </div>
+          </draggable>
         </div>
       </div>
-
-      <div class="clear"></div>
-      <div class="item">
-        <draggable>
-          <div v-for="section in resumeData.sections" :key="section.id">
-            <div v-for="(value, key) in section" class="Draggable">
-              <h2 v-if="key === 'title'">{{ value }}</h2>
-              <div class="line"></div>
-              <p v-if="key === 'content'">{{ value }}</p>
-            </div>
-          </div>
-        </draggable>
-      </div>
+      <TextEditor @formData="updateFormData" />
+    </body>
+    <div class="button-container">
+      <button @click="saveAllChanges" class="save-button">Save</button>
     </div>
-    <TextEditor @formData="GettingFormdData" />
-  </body>
+  </div>
 </template>
 
 <script>
 import Draggable from 'vue-draggable-next';
 import { VueDraggableNext } from 'vue-draggable-next';
-import TextEditor from './TextEditor.vue'
+import TextEditor from './TextEditor.vue';
 
 export default {
   name: 'Template3',
@@ -83,24 +87,33 @@ export default {
             content: "Withering Madness University - Planet Vhoorl \n major: Public Relations \n minor: Scale Tending"
           }
         ]
-      })
+      }),
+      required: false
     }
   },
+
   data() {
     return {
-      resumeData: { ...this.initialdata }
+      resumeData: {
+        ...this.initialdata
+      }
     };
   },
+
   methods: {
-    GettingFormdData(Data) {
-      this.resumeData = { ...this.resumeData, ...Data };
+    updateFormData(data) {
+      this.resumeData = { ...data };
+    },
+    saveAllChanges() {
+      const templateID = 1;
+      const templateData = { ...this.resumeData };
+      this.$emit('saveChanges', [templateID, templateData]);
     }
   }
 };
 </script>
 
 <style>
-/* CSS code remains the same */
 * {
   margin: 0;
   padding: 0;
@@ -113,6 +126,7 @@ body {
   line-height: 24px;
   background: url('../assets/noise.jpg');
 }
+
 .Draggable {
   display: flex;
   justify-content: flex-start;
@@ -120,6 +134,7 @@ body {
 .line {
   border: 2px solid;
 }
+
 template {
   margin-left: 1000px;
 }
@@ -208,17 +223,19 @@ dd.clear {
   justify-content: center;
   align-items: center;
   margin: 20px 0;
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
 }
-.square-button {
-  width: 40px; /* Adjust the width as needed */
-  height: 40px; /* Adjust the height as needed */
-  border-radius: 20px; /* Make the button square */
-  padding: 0; /* Remove padding */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.save-button {
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  background-color: rgba(0, 92, 191, 0.8);
+  cursor: pointer;
 }
-.square-button:hover {
-  background-color: #d3d3d3; /* Light gray hover effect */
+.save-button:hover {
+  background-color: #0056b3;
 }
 </style>

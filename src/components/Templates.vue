@@ -68,6 +68,12 @@ export default {
         name: 'Template4',
         description: 'template4 .',
         image: 'cthulu.png'
+      },
+      {
+        id: 5,
+        name: 'Template5',
+        description: 'template5 .',
+        image: 'cthulu.png'
       }
     ];
   },
