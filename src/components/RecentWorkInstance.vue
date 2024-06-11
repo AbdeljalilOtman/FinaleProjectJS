@@ -2,7 +2,7 @@
     <div ref="componentContainer" class="component-container">
       <component v-if="workingTemplate && templateData"
                  :is="workingTemplate"
-                 :initial="templateData" @saveChanges="saveAllChanges" />
+                 :initial="templateData" @saveChanges="saveAllChanges" @exportAsPDF="exportAsPDF" />
       <div v-else>
         <p v-if="isLoading">Loading...</p>
         <p v-else-if="loadError">Failed to load data. Please try again later.</p>
@@ -11,10 +11,11 @@
   </template>
   
   <script>
-  import { getRecentChangesById } from '../composables/useFirestore.js';
-  import { saveChange } from '@/composables/useFirestore.js'; // Adjust the import path as needed
+import { getRecentChangesById } from '../composables/useFirestore.js';
+import { saveChange } from '@/composables/useFirestore.js'; // Adjust the import path as needed
 import html2canvas from 'html2canvas';
 import getUser from '@/composables/getUser';
+import html2pdf from 'html2pdf.js'
 
   export default {
     name: 'RecentWorkInstance',
@@ -30,7 +31,9 @@ import getUser from '@/composables/getUser';
         workingTemplate: null,
         templateData: null,
         isLoading: true,
-        loadError: false
+        loadError: false,
+        exported:false
+
       };
     },
     async mounted() {
@@ -69,7 +72,33 @@ import getUser from '@/composables/getUser';
         } catch (error) {
           console.error('Error capturing snapshot:', error);
         }
-      },
+      },    
+      async exportAsPDF(templateData) {
+        // Select the template container
+        let template = document.querySelector('#template');
+        const buttons = document.querySelectorAll('.icon');
+        buttons.forEach(button => {
+            button.remove()
+        });
+
+        // Options for html2pdf
+        const options = {
+            margin: 0,
+            filename: 'template.pdf',
+            image: { type: 'jpeg', quality: 0.99 },
+            html2canvas: { scale: 1 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+
+        await html2pdf().from(template).set(options).save();
+        this.exported=true;
+        await this.saveAllChanges(templateData);
+
+        console.log('PDF exported successfully!');
+        window.location.reload()
+
+    },
       async saveAllChanges(templateData) {
         try {
           const { user } = getUser(); // Use destructuring to get the user ref
@@ -84,7 +113,7 @@ import getUser from '@/composables/getUser';
           templateData[1].snapshot = this.snapshot; // Update snapshot in templateData
 
           console.log(templateData[1]);
-          await saveChange(userId, templateData[0], templateData[1]); // Pass the user ID to saveChange
+          await saveChange(userId, templateData[0], templateData[1],this.exported); // Pass the user ID to saveChange
           alert('Changes saved successfully!');
           
         } catch (error) {
@@ -98,7 +127,18 @@ import getUser from '@/composables/getUser';
   
   <style scoped>
   .component-container {
-    /* Style your component container for snapshot here */
-  }
+    padding-left: 10%;
+    padding-right: 10%;  
+  margin-left: 20%;
+
+}
+#template {
+  margin-top: 2vh;
+
+  width: 212mm; /* or 8.27in */
+  overflow: hidden;
+    border-style: solid;
+    border-color: black;
+}
   </style>
   

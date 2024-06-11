@@ -63,13 +63,13 @@ export default {
         id: 3,
         name: 'Template3',
         description: 'A professional template.',
-        image: 'cthulu.png'
+        image: 'Template3.png'
       },
       {
         id: 4,
         name: 'Template4',
         description: 'template4 .',
-        image: 'cthulu.png'
+        image: 'Template4.png'
       }
     ];
   },

@@ -18,7 +18,8 @@ export default {
     return {
       id: '',
       templateComponent: null,
-      snapshot: ''
+      snapshot: '',
+      exported:false
     };
   },
   methods: {
@@ -33,12 +34,14 @@ export default {
         this.templateComponent = null;
       }
     },
+
     async captureSnapshot() {
       try {
         const container = document.querySelector('#template');
         console.log(container);
         const canvas = await html2canvas(container);
         this.snapshot = canvas.toDataURL('image/png');
+
         //console.log(this.snapshot);
 
       } catch (error) {
@@ -57,11 +60,10 @@ export default {
         //console.log(userId);
         await this.captureSnapshot(); // Capture snapshot before saving changes
         templateData[1].snapshot = this.snapshot; // Update snapshot in templateData
-        let exported = templateData[2];
 
         console.log(templateData);
 
-        await saveChange(userId, templateData[0], templateData[1],exported); // Pass the user ID to saveChange
+        await saveChange(userId, templateData[0], templateData[1],this.exported); // Pass the user ID to saveChange
         alert('Changes saved successfully!');
 
       } catch (error) {
@@ -71,25 +73,33 @@ export default {
       
     },
     async exportAsPDF(templateData) {
-        // Select the template container
-        const template = document.querySelector('#template');
-        // Options for html2pdf
-        const options = {
-          margin: 0.5,
-          filename: 'template.pdf',
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-        };
-        
-      await this.saveAllChanges(templateData);
+    // Select the template container
+    let template = document.querySelector('#template');
+    const buttons = document.querySelectorAll('.icon');
+    buttons.forEach(button => {
+        button.remove()
+    });
 
-      html2pdf().from(template).set(options).save();
-      console.log('PDF exported successfully!');
+    // Options for html2pdf
+    const options = {
+        margin: 0,
+        filename: 'template.pdf',
+        image: { type: 'jpeg', quality: 0.99 },
+        html2canvas: { scale: 1 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
 
-       
 
-    }
+    await html2pdf().from(template).set(options).save();
+    this.exported=true;
+    console.log('PDF exported successfully!');
+    await this.saveAllChanges(templateData);
+
+    window.location.reload()
+
+
+}
+
 
   },
   watch: {
@@ -101,16 +111,22 @@ export default {
 };
 </script>
 
-<style scoped>
-.template-view-container {
+<style scoped >
+.template-view-container{
+  padding-left: 10%;
+  padding-right: 10%;
   margin-left: 20%;
   
+
+}
+#template {
+    width: 212mm; /* or 8.27in */
+    margin-top: 2vh;
+    overflow: hidden;
+    border-style: solid;
+    border-color: black;
 }
 
-.editBar {
-  
-}
 
-.template-container {
-}
+
 </style>

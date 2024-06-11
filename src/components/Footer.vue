@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer">
+  <footer class="footer w-full mt-4">
     <div class="about">
       <h1>This application was made by Computer Science Students</h1>
       <div class="members">
@@ -58,8 +58,11 @@ export default {
 .footer {
   background: linear-gradient(to right, #1e3c72, #2a5298);
   color: #fff;
-  padding: 20px 2px;
+  padding:  2px;
   text-align: center;
+  margin-left: calc(2rem + 32px);
+  width: 100%;
+  
 }
 
 .footer-text {

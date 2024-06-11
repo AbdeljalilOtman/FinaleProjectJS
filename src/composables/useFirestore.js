@@ -1,7 +1,7 @@
 import {projectFirestore} from '@/firebase/config.js';
 
 // Save a new change
-export const saveChange = async (userId, templateId, templateData,exported=false) => {
+export const saveChange = async (userId, templateId, templateData,exported) => {
   try {
     const docRef = await projectFirestore.collection('userChanges').doc()
     console.log(templateData)
@@ -65,6 +65,16 @@ export const updateChange = async (docId, updatedData) => {
     console.error("Error updating document: ", e);
   }
 };
+
+export const getExportedCvs =async (userId) => {
+  try {
+    const querySnapshot = await projectFirestore.collection('userChanges').where('userId', '==', userId).where('exported', '==', true).get();
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  } catch (e) {
+    console.error("Error getting documents: ", e);
+    return [];
+  }
+}
 
 
 

@@ -11,7 +11,15 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle.js'; // This includes Popper.js
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+
+// Import specific icons
+import { faPlus, faXmark , faPhone, faEnvelope, faCirclePlus, faCircleXmark} from '@fortawesome/free-solid-svg-icons';
+library.add(faPlus, faXmark, faPhone, faEnvelope,faCirclePlus, faCircleXmark);
+
 const app = createApp(App)
+app.component('font-awesome-icon', FontAwesomeIcon);
 
 app.config.globalProperties.$firestore = projectFirestore
 

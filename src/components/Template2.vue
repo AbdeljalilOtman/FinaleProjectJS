@@ -1,91 +1,325 @@
 <template>
+    <saveBar @save="saveAllChanges" @exportAsPDF="exportAsPDF" @editProfPic="editProfPic"/>
 
-<div id="inner-nav"></div>
-    <div id="container">
-        <div id="profile">
-            <div id="image">
-                <img id="profile-photo" src="http://mnnit.ac.in/ss/images/shashank.jpg" alt="Profile-Image">
-                <a href="#"><i class="fas fa-pen stroke-transparent"></i></a>
+    <div class="p-1 bg-gray-100 rounded-lg shadow-lg " id="template">
+      <div class="flex">
+        <!-- Left Column -->
+        <div class="w-2/5 p-4 text-black ">
+            <div class="flex items-center space-x-4 mb-6">
+            <img :src="templateData.personalInfo.profilePicture" alt="Profile Picture" class="w-24 h-24 rounded-full shadow-md" />
+            <div>
+              <h1 class="text-3xl font-bold">
+                <textarea v-model="templateData.personalInfo.name" placeholder="Enter your name" class="w-full bg-transparent border-none focus:outline-none text-black  auto-resize"></textarea>
+              </h1>
+              <p class="text-xl text-gray-300">
+                <textarea v-model="templateData.jobTitle" placeholder="Enter your job title" class="w-full bg-transparent border-none focus:outline-none text-gray-500 auto-resize"></textarea>
+              </p>
             </div>
-            <p id="name">Shashank Srivastava<br><span id="email">shashank12@mnnit.ac.in</span></p>
-            <p id="designation">Assistant Professor<br><span id="college">Motilal Nehru National Institute of Technology, Allahabad, Prayagraj, India</span></p>
-            <div id="social-links"><a href="#"><i class="fab fa-facebook-f stroke-transparent"></i></a><a><i class="fab fa-twitter stroke-transparent"></i></a><a><i class="fab fa-linkedin-in stroke-transparent"></i></a><a><i class="fab fa-github stroke-transparent"></i></a></div>
-            <a id="edit-intro" href="#"><i class="fas fa-pen-alt blue"></i>&nbsp;&nbsp;Edit Intro</a>
-            <hr width="100%">
-            <div id="about">
-                <p style="display:inline;">About</p>
-                <a href="#"><i class="fas fa-pen stroke-transparent-blue"></i></a>
+          </div>
+          <div class="mt-4 mb-6">
+            <h2 class="text-2xl font-semibold border-b pb-2 border-gray-400 text-gray-400">Contact Info</h2>
+            <p class="text-sm mt-2">
+              <textarea v-model="templateData.personalInfo.contactInfo" placeholder="Enter your contact info" class="w-full bg-transparent border-none focus:outline-none text-black-800 auto-resize"></textarea>
+            </p>
+          </div>
+          <div class="mt-8">
+            <h2 class="text-2xl font-semibold border-b pb-2 text-gray-400">Skills</h2>
+            <div class="mt-4">
+              <draggable class="dragArea list-group w-100" :list="templateData.list" @change="log">
+                <div v-for="(skill, index) in templateData.skills" :key="index" class="flex items-center mt-2">
+                  <textarea v-model="templateData.skills[index]" placeholder="Enter a skill" class="w-full bg-transparent border-none focus:outline-none text-black-800 auto-resize"></textarea>
+                  <font-awesome-icon icon="xmark" @click="removeSkill(index)" size="lg" class="text-red-500 hover:underline ml-2 cursor-pointer icon hover:animate-ping"/>
+                </div>
+              </draggable>
+              <font-awesome-icon icon="plus" @click="addSkill"  class="mt-4 text-gray-900 hover:underline icon flex justify-center cursor-pointer transition-transform duration-300 hover:rotate"/>
             </div>
-            <p id="year-graduation">Expected Year of Graduation<br><strong>March, 2014</strong></p>
-            <p id="education">Education<br><strong>Doctorate, Indian Institute of Information Technology-Allahabad</strong></p>
-            <p id="more-about">More about me<br><span>DUGC of Computer Science & Engineering Department</span></p>
-            <p id="telephone">Telephone<br><strong>0532-2271351</strong></p>
-            <p id="fax">Fax<br><strong>+91-532-25453441</strong></p>
+          </div>
+          <div class="mt-8">
+            <h2 class="text-2xl font-semibold border-b pb-2 text-gray-400">Languages</h2>
+            <div class="mt-4">
+              <draggable class="dragArea list-group w-100" :list="templateData.list" @change="log">
+                <div v-for="(language, index) in templateData.languages" :key="index" class="flex items-center mt-2">
+                  <textarea v-model="templateData.languages[index]" placeholder="Enter a language" class="w-full bg-transparent border-none focus:outline-none text-black-800  auto-resize"></textarea>
+                  <font-awesome-icon icon="xmark" @click="removeLanguages(index)" size="lg" class="text-red-500 hover:underline ml-2 cursor-pointer icon hover:animate-ping"/>
+                </div>
+              </draggable>
+              <font-awesome-icon icon="plus" @click="addLanguages"  class="mt-4 text-gray-900 hover:underline icon flex justify-center cursor-pointer transition-transform duration-300 hover:rotate"/>
+            </div>
+          </div>
+          <div class="mt-8">
+            <h2 class="text-2xl font-semibold border-b pb-2 text-gray-400">Others</h2>
+            <div class="mt-4">
+              <draggable class="dragArea list-group w-100" :list="templateData.list" @change="log">
+                <div v-for="(other, index) in templateData.Others" :key="index" class="flex items-center mt-2">
+                  <textarea v-model="templateData.Others[index]" placeholder="Enter other information" class="w-full bg-transparent border-none focus:outline-none text-black-800 auto-resize"></textarea>
+                  <font-awesome-icon icon="xmark" @click="removeOther(index)" size="lg" class="text-red-500 hover:underline ml-2 cursor-pointer icon hover:animate-ping"/>
+                </div>
+              </draggable>
+              <font-awesome-icon icon="plus" @click="addOther"  class="mt-4 text-gray-900 hover:underline icon flex justify-center cursor-pointer transition-transform duration-300 hover:rotate"/>
+            </div>
+          </div>
         </div>
-        <div id="info-cards">
-            <div class="card">
-                <p><i class="fas fa-briefcase stroke-transparent"></i>&nbsp;&nbsp;&nbsp;Work Experience</p>
-                <a href="#">+ Add work experience, including contracts and internships</a>
-            </div>
-            <div class="card">
-                <p><i class="fas fa-briefcase stroke-transparent"></i>&nbsp;&nbsp;&nbsp;Workshop</p>
-                <ul>
-                    <li><p class="tags">5 th IEEE Conference on Wireless Communication and Sensor Networks<br><span>IIIT-Allahabad | <span>2010</span></span></p>
-                        <a class="edit" href="#"><i class="fas fa-pen stroke-transparent-blue"></i></a></li>
-                    <li><p class="tags">Microsoft Theory Day<br><span>IISc Bangalore | <span>2012</span></span></p>
-                        <a class="edit" href="#"><i class="fas fa-pen stroke-transparent-blue"></i></a></li>
-                    <li><p class="tags">Microsoft Research India 2012 Summer School on Distributed Algorithms, Systems and Programming<br><span>IISc Bangalore | <span>2012</span></span></p>
-                        <a class="edit" href="#"><i class="fas fa-pen stroke-transparent-blue"></i></a></li>
-                    <li><p class="tags">IEEE workshop on Cyber security<br><span>DAIICT Gandhi Nagar | <span>Nov, 2013</span></span></p>
-                        <a class="edit" href="#"><i class="fas fa-pen stroke-transparent-blue"></i></a></li>
-                    <li><p class="tags">Author workshop jointly organized by Central Library<br><span>MNNIT Allahabad & Springer (India) Pvt. Ltd New Delhi | <span>29th October, 2015</span></span></p>
-                        <a class="edit" href="#"><i class="fas fa-pen stroke-transparent-blue"></i></a></li>
-                    <li><p class="tags">Workshop for Computer Science Teachers<br><span>IIT Kanpur | <span>July, 2014</span></span></p>
-                        <a class="edit" href="#"><i class="fas fa-pen stroke-transparent-blue"></i></a></li>
-                    <li><p class="tags">15th International Conference on Cryptology INDOCRYPT<br><span> | <span>2014</span></span></p>
-                        <a class="edit" href="#"><i class="fas fa-pen stroke-transparent-blue"></i></a></li>
-                </ul>
-                <a href="#">+ Add workshops attended</a>
-            </div>
-            <div class="card">
-                <p><i class="fas fa-graduation-cap stroke-transparent"></i>&nbsp;&nbsp;&nbsp;Education</p>
-                <ul>
-                    <li><p class="tags">Indian Institute of Information Technology-Allahabad<br><span>Secure Mobile Agent Based Communication for Real Time Applications, Doctorate | <span>March, 2014</span></span></p>
-                        <a class="edit" href="#"><i class="fas fa-pen stroke-transparent-blue"></i></a></li>
-                    <li><p class="tags">Indian Institute of Information Technology-Allahabad<br><span>Information Security, MS | <span>1994-1996</span></span></p>
-                        <a class="edit" href="#"><i class="fas fa-pen stroke-transparent-blue"></i></a></li>
-                    <li><p class="tags">Institute of Engineering and Rural Technology, U.P.T.U. Allahabad<br><span>Computer Science & Engineering, B.Tech | <span>1988-1992</span></span></p>
-                        <a class="edit" href="#"><i class="fas fa-pen stroke-transparent-blue"></i></a></li>
-                </ul>
-                <a href="#">+ Add new</a>
-            </div>
+  
+        <!-- Right Column -->
+        <div class="w-3/5 p-4 bg-white rounded-lg">
+            <div class="mt-8 mb-6">
+            <h2 class="text-2xl font-semibold border-b pb-2 text-gray-900">Profile</h2>
+            <textarea v-model="templateData.profile" placeholder="Enter your profile" class="w-full mt-4 bg-transparent border-none focus:outline-none text-gray-900 auto-resize"></textarea>
+          </div>
+          <div class="mt-8 mb-6">
+            <h2 class="text-2xl font-semibold border-b pb-2 text-gray-900">Experience</h2>
+            <draggable class="dragArea list-group w-100" :list="templateData.list" @change="log">
+              <div v-for="(experience, index) in templateData.experiences" :key="index" class="mt-4 border-b pb-4 border-gray-300">
+                <h3 class="text-xl font-semibold text-gray-900">
+                  <textarea v-model="experience.jobTitle" placeholder="Enter job title" class="w-full bg-transparent border-none focus:outline-none text-gray-900 auto-resize"></textarea>
+                </h3>
+                <p class="text-sm text-gray-600">
+                  <textarea v-model="experience.company" placeholder="Enter company" class="w-full bg-transparent border-none focus:outline-none text-gray-600 auto-resize"></textarea>
+                  -
+                  <textarea v-model="experience.period" placeholder="Enter period" class="w-full bg-transparent border-none focus:outline-none text-gray-600 auto-resize"></textarea>
+                </p>
+                <textarea v-model="experience.description" placeholder="Enter job description" class="w-full mt-2 bg-transparent border-none focus:outline-none text-gray-900 auto-resize"></textarea>
+                <font-awesome-icon icon="circle-xmark" size="xl" @click="removeExperience(index)" class="text-red-500 hover:underline ml-2 cursor-pointer icon hover:animate-ping"/>
+              </div>
+            </draggable>
+            <font-awesome-icon icon="circle-plus" @click="addExperience" size="xl"  class="mt-4 text-gray-900 hover:underline icon flex justify-center cursor-pointer transition-transform duration-300 hover:rotate"/>
+          </div>
+          <div class="mt-8">
+            <h2 class="text-2xl font-semibold border-b pb-2 text-gray-900">Education</h2>
+            <draggable class="dragArea list-group w-100" :list="templateData.list" @change="log">
+              <div v-for="(education, index) in templateData.education" :key="index" class="mt-4 border-b pb-4 border-gray-300">
+                <h3 class="text-xl font-semibold text-gray-900">
+                  <textarea v-model="education.degree" placeholder="Enter degree" class="w-full bg-transparent border-none focus:outline-none text-gray-900 auto-resize"></textarea>
+                </h3>
+                <p class="text-sm text-gray-600">
+                  <textarea v-model="education.institution" placeholder="Enter institution" class="w-full bg-transparent border-none focus:outline-none text-gray-600 auto-resize"></textarea>
+                  -
+                  <textarea v-model="education.period" placeholder="Enter period" class="w-full bg-transparent border-none focus:outline-none text-gray-600 auto-resize"></textarea>
+                </p>
+                <textarea v-model="education.description" placeholder="Enter description" class="w-full mt-2 bg-transparent border-none focus:outline-none text-gray-900 auto-resize"></textarea>
+                <font-awesome-icon icon="circle-xmark" size="xl" @click="removeEducation(index)" class="text-red-500 hover:underline ml-2 cursor-pointer icon hover:animate-ping"/>
+              </div>
+            </draggable>
+            <font-awesome-icon icon="circle-plus" @click="addEducation" size="xl" class="mt-4 text-gray-900 hover:underline icon flex justify-center cursor-pointer transition-transform duration-300 hover:rotate"/>
+          </div>
         </div>
+      </div>
     </div>
-</template>
-
-<script>
-export default {
-  name: 'Template1',
-  data() {
-    return {
-      profilePicture: 'https://via.placeholder.com/150',
-      fullName: 'John Doe',
-      jobTitle: 'Software Engineer',
-      contactInfo: 'john.doe@example.com | (123) 456-7890',
-      profile: 'An experienced software engineer with a passion for developing innovative programs that expedite the efficiency and effectiveness of organizational success.',
-      experiences: [
-        { jobTitle: 'Senior Software Engineer', company: 'Tech Corp', period: '2019 - Present', description: 'Developed and implemented software solutions that improved operations by 20%.' },
-        { jobTitle: 'Software Engineer', company: 'Web Solutions', period: '2015 - 2019', description: 'Collaborated with team members to create reliable software systems.' }
-      ],
-      education: [
-        { degree: 'B.S. in Computer Science', institution: 'University of Technology', period: '2011 - 2015', description: 'Graduated with honors and a focus in software engineering.' }
-      ],
-      skills: ['JavaScript', 'Vue.js', 'Tailwind CSS', 'Node.js']
+  </template>
+  
+  <script>
+  import Draggable from 'vue-draggable-next';
+  import { VueDraggableNext } from 'vue-draggable-next';
+  import saveBar from './saveBar.vue';
+  
+  export default {
+    name: 'Template2',
+    components: {
+      Draggable,
+        saveBar,
+      draggable: VueDraggableNext,
+    },
+    props: {
+      initial: {
+        type: Object,
+        default: () => ({
+          personalInfo: {
+            profilePicture: 'https://via.placeholder.com/150',
+            name: 'John Doe',
+            contactInfo: 'john@example.com',
+          },
+          jobTitle: 'Software Engineer',
+          profile: 'An experienced software engineer...',
+          experiences: [
+            { jobTitle: 'Senior Software Engineer', company: 'Tech Corp', period: '2019 - Present', description: 'Developed and implemented software solutions that improved operations by 20%.' },
+          ],
+          education: [
+            { degree: 'B.S. in Computer Science', institution: 'University of Technology', period: '2011 - 2015', description: 'Graduated with honors and a focus in software engineering.' }
+          ],
+          skills: ['JavaScript'],
+          languages: ['French'],
+          Others: ['karate']
+        }),
+        required: false
+      }
+    },
+    data() {
+      return {
+        templateData: {
+          ...this.initial
+        },
+      }
+    },
+    methods: {
+      addSkill() {
+        this.templateData.skills.push('');
+      },
+      addLanguages() {
+        this.templateData.languages.push('');
+      },
+      addOther() {
+        this.templateData.Others.push('');
+      },
+      removeSkill(index) {
+        this.templateData.skills.splice(index, 1);
+      },
+      removeLanguages(index) {
+        this.templateData.languages.splice(index, 1);
+      },
+      removeOther(index) {
+        this.templateData.Others.splice(index, 1);
+      },
+      autoResize(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+      },
+      addExperience() {
+        this.templateData.experiences.push({
+          jobTitle: '',
+          company: '',
+          period: '',
+          description: ''
+        });
+        // Call the auto-resize function after adding new experiences
+        this.$nextTick(() => {
+          const textareas = document.querySelectorAll('.auto-resize');
+          textareas.forEach(textarea => {
+            this.autoResize(textarea);
+            textarea.addEventListener('input', () => this.autoResize(textarea));
+          });
+        });
+      },
+      addEducation() {
+        this.templateData.education.push({
+          degree: '',
+          institution: '',
+          period: '',
+          description: ''
+        });
+        // Call the auto-resize function after adding new education
+        this.$nextTick(() => {
+          const textareas = document.querySelectorAll('.auto-resize');
+          textareas.forEach(textarea => {
+            this.autoResize(textarea);
+            textarea.addEventListener('input', () => this.autoResize(textarea));
+          });
+        });
+      },
+      removeEducation(index) {
+        this.templateData.education.splice(index, 1);
+      },
+      removeExperience(index) {
+        this.templateData.experiences.splice(index, 1);
+      },
+      saveAllChanges() {
+        const templateID = 2;
+        this.$emit('saveChanges', [templateID, this.templateData]);
+      },
+      editProfPic(pic){
+        this.templateData.personalInfo.profilePicture=pic;
+      },
+      exportAsPDF(){
+        const templateID = 2;
+        this.$emit('exportAsPDF',[templateID, this.templateData]);
+      }
+    },
+    mounted() {
+      // Auto-resize textareas on input
+      const autoResize = (textarea) => {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+      };
+      this.$nextTick(() => {
+        const textareas = document.querySelectorAll('.auto-resize');
+        textareas.forEach(textarea => {
+          autoResize(textarea);
+          textarea.addEventListener('input', () => autoResize(textarea));
+        });
+      });
     }
   }
-}
-</script>
-
-<style scoped>
-/* Add any additional styling here */
-</style>
+  </script>
+  <style scoped>
+  .bg-gray-100 {
+    background-color: #f3f4f6; /* Lighter shade for a cleaner look */
+  }
+  
+  .text-gray-900 {
+    color: #2d3748; /* Darker for better contrast and readability */
+  }
+  
+  .text-gray-300 {
+    color: #e2e8f0; /* Lighter for subtle details */
+  }
+  
+  .text-gray-400 {
+    color: #a0aec0; /* Adjusted for better visibility and contrast */
+  }
+  
+  .text-gray-600 {
+    color: #4a5568; /* Darker to enhance legibility */
+  }
+  
+  .bg-gray-800 {
+    background-color: #1a202c; /* Very dark for strong contrast on light backgrounds */
+  }
+  
+  .border-gray-300 {
+    border-color: #edf2f7; /* Lighter to soften the borders */
+  }
+  
+  .border-gray-400 {
+    border-color: #cbd5e0; /* Kept the same for consistency */
+  }
+  
+  .min-w-screen-lg {
+    min-width: 1024px; /* Ensure minimum width for larger screens */
+  }
+  
+  input[type="placeholder"],
+  textarea {
+    overflow: hidden;
+    white-space: normal;
+    word-wrap: break-word;
+    resize: none; /* Prevent textarea from being resized */
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .icon {
+    transition: all 0.3s ease; /* Smooth transition for icon interactions */
+  }
+  
+  .icon:hover {
+    color: #63b3ed; /* A vibrant color for hover states */
+    transform: scale(1.1); /* Slightly enlarge icons on hover */
+  }
+  
+  .details-link, .text-white {
+    color: #ffffff; /* Ensure readability */
+    background-color: #3182ce; /* Consistent theme color for buttons and links */
+  }
+  
+  .details-link:hover {
+    background-color: #2c5282; /* Darker shade on hover for depth */
+  }
+  
+  .button-bg {
+    background-color: #4fd1c5; /* Teal shade for buttons to stand out */
+    color: white;
+    border-radius: 6px;
+    padding: 8px 16px;
+  }
+  
+  .button-bg:hover {
+    background-color: #38b2ac; /* Slightly darker teal on hover */
+  }
+  </style>
+  

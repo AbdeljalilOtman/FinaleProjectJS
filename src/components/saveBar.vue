@@ -5,11 +5,9 @@
         <input type="file" @change="onFileChange" accept="image/*" class="file-input form-control-file" />
       </li>
       <li>
-        <button @click="addSection" class="nav-button">Add Section</button>
+        <button @click="saveAllChanges" class="nav-button">Save</button>
       </li>
-      <li>
-        <button class="nav-button">Modify Sections</button>
-      </li>
+
       <li>
         <button @click="exportPDF" class="nav-button">Save & Export</button>
       </li>
@@ -19,7 +17,7 @@
 
 <script>
 export default {
-  name: 'editBar',
+  name: 'saveBar',
   methods: {
     onFileChange (event) {
       const file = event.target.files[0];
@@ -31,11 +29,9 @@ export default {
         reader.readAsDataURL(file);
       }
     },
-    addSection() {
-      const sectionName = prompt("Enter the name of the new section:");
-      if (sectionName) {
-        this.$emit('addSection', sectionName);
-      }
+    saveAllChanges() {
+        this.$emit('save');
+      
     },
     exportPDF() {
       this.$emit('exportAsPDF');
@@ -46,11 +42,13 @@ export default {
 
   <style scoped>
   .edit-bar {
-    background-color: #5c7370; /* Better green color */
-    width: 80%;
-    height: 50px; /* Less height */
+    background: linear-gradient(to right, #932c00, #521800); /* Better green color */
+    width: 210mm; /* or 8.27in */
+    height:10vh; /* Less height */
     top: 0;
     z-index: 10;
+    border-radius: 20px;
+
   }
   
   .container {
@@ -62,6 +60,7 @@ export default {
   
   .nav-button {
     padding: 0.5rem 1rem;
+
     color: white;
     font-weight: bold;
     background-color: transparent;
@@ -71,9 +70,9 @@ export default {
   }
   
   .nav-button:hover {
-    background-color: #e9c46a; 
-    color: #000;
-    border-radius: 0.25rem;
+    background-color: #000000; 
+    color: #ffffff;
+    border-radius: 20px;
   }
   </style>
   
