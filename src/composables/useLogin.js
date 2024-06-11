@@ -15,6 +15,8 @@ const login = async (email, password) => {
     } catch (err) {
         console.error('Login Error:', err.message); 
         error.value = err.message;
+        alert("Wrong email or password");
+
     }
 }
 

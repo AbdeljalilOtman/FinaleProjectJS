@@ -66,6 +66,7 @@ export default {
       } catch (err) {
         console.error('Error during login:', err);
         error.value = err.message;
+        alert("Wrong email or password");
       }
     },
   },
