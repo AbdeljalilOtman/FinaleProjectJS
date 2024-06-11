@@ -26,7 +26,7 @@
           </draggable>
         </div>
       </div>
-      <TextEditor @formData="updateFormData" />
+      <TextEditor class="Editor" @formData="updateFormData" />
     </body>
     <div class="button-container">
       <button @click="saveAllChanges" class="save-button">Save</button>
@@ -113,6 +113,9 @@ export default {
 </script>
 
 <style>
+.Editor{
+  z-index: 1;
+}
 * {
   margin: 0;
   padding: 0;
