@@ -1,35 +1,88 @@
 <template>
-  <div>
-    <body>
-      <div id="template">
-        <div id="contact-info" class="vcard">
-          <img src="../components/images/avatar.jpg" alt="Photo of Cthulu" id="pic" />
-          <h1 class="fn">{{ resumeData.contactName }}</h1>
-          <p>
-            Cell: <span class="tel">{{ resumeData.contactCell }}</span><br />
-            Email: <a class="email" :href="'mailto:' + resumeData.contactEmail">{{ resumeData.contactEmail }}</a>
-          </p>
-          <div id="objective">
-            <p>{{ resumeData.objective }}</p>
+  <div class="max-w-full overflow-x-auto my-2 p-2 bg-white rounded-lg shadow-lg min-w-screen-lg" id="template">
+    <div class="flex flex-wrap">
+      <!-- Right Column (Now on the right) -->
+      <div class="flex-none w-full md:w-1/3 p-4 bg-green-800 rounded-lg text-white">
+        <div class="flex items-center space-x-4 mb-6">
+          <img :src="templateData.personalInfo.profilePicture" alt="Profile Picture" class="w-24 h-24 rounded-full shadow-md" />
+
+          <div>
+            <h1 class="text-3xl font-bold">
+              <textarea v-model="templateData.personalInfo.name" placeholder="Enter your name" class="w-full bg-transparent border-none focus:outline-none text-white auto-resize"></textarea>
+            </h1>
+            <p class="text-xl text-gray-400">
+              <textarea v-model="templateData.jobTitle" placeholder="Enter your job title" class="w-full bg-transparent border-none focus:outline-none text-gray-400 auto-resize"></textarea>
+            </p>
           </div>
         </div>
-
-        <div class="clear"></div>
-        <div class="item">
-          <draggable>
-            <div v-for="item in resumeData.sections" :key="item.id">
-              <div v-for="(value, key) in item" class="Draggable">
-                <strong><h2 v-if="key === 'title'">{{ value }}</h2></strong>
-                <p v-if="key === 'content'">{{ value }}</p>
+        <div class="mt-4 mb-6">
+          <h2 class="text-2xl font-semibold border-b pb-2 border-pink-500 text-pink-500">Contact Info</h2>
+          <p class="text-sm text-gray-400 mt-2">
+            <textarea v-model="templateData.personalInfo.contactInfo" placeholder="Enter your contact info" class="w-full bg-transparent border-none focus:outline-none text-gray-400 auto-resize"></textarea>
+          </p>
+        </div>
+        <div class="mt-8">
+          <h2 class="text-2xl font-semibold border-b pb-2 border-pink-500 text-pink-500">Skills</h2>
+          <div class="mt-4">
+            <draggable class="dragArea list-group w-100" :list="templateData.list" @change="log">
+              <div v-for="(skill, index) in templateData.skills" :key="index" class="flex items-center mt-2">
+                <textarea v-model="templateData.skills[index]" placeholder="Enter a skill" class="w-full bg-transparent border-none focus:outline-none text-white auto-resize"></textarea>
+                <button @click="removeSkill(index)" class="text-red-500 hover:underline ml-2">Remove</button>
               </div>
-            </div>
-          </draggable>
+            </draggable>
+
+            <button @click="addSkill" class="mt-4 text-pink-500 hover:underline">Add Skill</button>
+          </div>
         </div>
       </div>
-      <TextEditor class="Editor" @formData="updateFormData" />
-    </body>
-    <div class="button-container">
-      <button @click="saveAllChanges" class="save-button">Save</button>
+
+      <!-- Left Column (Now on the left) -->
+      <div class="flex-grow md:w-2/3 p-4 bg-gray-100 rounded-lg">
+        <div class="mt-8 md:mt-0 mb-6">
+          <h2 class="text-2xl font-semibold border-b pb-2 text-green-800">Profile</h2>
+          <textarea v-model="templateData.profile" placeholder="Enter your profile" class="w-full mt-4 bg-transparent border-none focus:outline-none text-green-800 auto-resize"></textarea>
+        </div>
+        <div class="mt-8 mb-6">
+          <h2 class="text-2xl font-semibold border-b pb-2 text-green-800">Experience</h2>
+          <draggable class="dragArea list-group w-100" :list="templateData.list" @change="log">
+            <div v-for="(experience, index) in templateData.experiences" :key="index" class="mt-4 border-b pb-4">
+              <h3 class="text-xl font-semibold text-green-800">
+                <textarea v-model="experience.jobTitle" placeholder="Enter job title" class="w-full bg-transparent border-none focus:outline-none text-green-800 auto-resize"></textarea>
+              </h3>
+              <p class="text-sm text-gray-600">
+                <textarea v-model="experience.company" placeholder="Enter company" class="w-full bg-transparent border-none focus:outline-none text-gray-600 auto-resize"></textarea>
+                -
+                <textarea v-model="experience.period" placeholder="Enter period" class="w-full bg-transparent border-none focus:outline-none text-gray-600 auto-resize"></textarea>
+              </p>
+              <textarea v-model="experience.description" placeholder="Enter job description" class="w-full mt-2 bg-transparent border-none focus:outline-none text-green-800 auto-resize"></textarea>
+              <button @click="removeExperience(index)" class="text-red-500 hover:underline ml-2">Remove Experience</button>
+            </div>
+          </draggable>
+          <button @click="addExperience" class="mt-4 text-pink-500 hover:underline">Add Experience</button>
+        </div>
+        <div class="mt-8">
+          <h2 class="text-2xl font-semibold border-b pb-2 text-green-800">Education</h2>
+          <draggable class="dragArea list-group w-100" :list="templateData.list" @change="log">
+            <div v-for="(education, index) in templateData.education" :key="index" class="mt-4 border-b pb-4">
+              <h3 class="text-xl font-semibold text-green-800">
+                <textarea v-model="education.degree" placeholder="Enter degree" class="w-full bg-transparent border-none focus:outline-none text-green-800 auto-resize"></textarea>
+              </h3>
+              <p class="text-sm text-gray-600">
+                <textarea v-model="education.institution" placeholder="Enter institution" class="w-full bg-transparent border-none focus:outline-none text-gray-600 auto-resize"></textarea>
+                -
+                <textarea v-model="education.period" placeholder="Enter period" class="w-full bg-transparent border-none focus:outline-none text-gray-600 auto-resize"></textarea>
+              </p>
+              <textarea v-model="education.description" placeholder="Enter description" class="w-full mt-2 bg-transparent border-none focus:outline-none text-green-800 auto-resize"></textarea>
+              <button @click="removeEducation(index)" class="text-red-500 hover:underline ml-2">Remove Education</button>
+            </div>
+          </draggable>
+          <button @click="addEducation" class="mt-4 text-pink-500 hover:underline">Add Education</button>
+        </div>
+      </div>
+    </div>
+    <div class="shapes">
+      <div class="shape1"></div>
+      <div class="shape2"></div>
     </div>
   </div>
 </template>
@@ -37,216 +90,148 @@
 <script>
 import Draggable from 'vue-draggable-next';
 import { VueDraggableNext } from 'vue-draggable-next';
-import TextEditor from './TextEditor.vue';
-
 export default {
   name: 'Template3',
   components: {
     Draggable,
     draggable: VueDraggableNext,
-    TextEditor
   },
   props: {
-    initialdata: {
+    initial: {
       type: Object,
       default: () => ({
-        contactName: "C'thulhu",
-        contactCell: "555-666-7777",
-        contactEmail: "greatoldone@lovecraft.com",
-        objective: "I am an outgoing and energetic (ask anybody) young professional, seeking a career that fits my professional skills, personality, and murderous tendencies. My squid-like head is a masterful problem solver and inspires fear in who gaze upon it. I can bring world domination to your organization.",
-        sections: [
-          {
-            id: 0,
-            title: "Skills",
-            content: "office : Office and records management, database administration, event organization, customer support, travel coordination \n computer : Microsoft productivity software (Word, Excel, etc), Adobe Creative Suite, Windows"
-          },
-          {
-            id: 1,
-            title: "experience1",
-            content: "location : Bartender/Server - Milwaukee, WI - 2009 \n Worked on grass-roots promotional campaigns \n Reduced theft and property damage percentages \n Janitorial work, Laundry"
-          },
-          {
-            id: 2,
-            title: "experience2",
-            content: "location : Bartender/Server - Milwaukee, WI - 2009 \n Worked on grass-roots promotional campaigns \n Reduced theft and property damage percentages \n Janitorial work, Laundry"
-          },
-          {
-            id: 3,
-            title: "hobbies",
-            content: "World Domination, Deep Sea Diving, Murder Most Foul"
-          },
-          {
-            id: 4,
-            title: "references",
-            content: "Available on request"
-          },
-          {
-            id: 5,
-            title: "education",
-            content: "Withering Madness University - Planet Vhoorl \n major: Public Relations \n minor: Scale Tending"
-          }
-        ]
+        personalInfo: {
+          profilePicture: 'https://via.placeholder.com/150',
+          name: 'John Doe',
+          contactInfo: 'john@example.com',
+        },
+        jobTitle: 'Software Engineer',
+        profile: 'An experienced software engineer...',
+        experiences: [
+          { jobTitle: 'Senior Software Engineer', company: 'Tech Corp', period: '2019 - Present', description: 'Developed and implemented software solutions that improved operations by 20%.' },
+        ],
+        education: [
+          { degree: 'B.S. in Computer Science', institution: 'University of Technology', period: '2011 - 2015', description: 'Graduated with honors and a focus in software engineering.' }
+        ],
+        skills: ['JavaScript']
       }),
       required: false
     }
   },
-
   data() {
     return {
-      resumeData: {
-        ...this.initialdata
-      }
-    };
+      templateData: {
+        ...this.initial
+      },
+    }
   },
-
   methods: {
-    updateFormData(data) {
-      this.resumeData = { ...data };
+    addSkill() {
+      this.templateData.skills.push('');
+    },
+    removeSkill(index) {
+      this.templateData.skills.splice(index, 1);
+    },
+    addExperience() {
+      this.templateData.experiences.push({
+        jobTitle: '',
+        company: '',
+        period: '',
+        description: ''
+      });
+    },
+    removeExperience(index) {
+      this.templateData.experiences.splice(index, 1);
+    },
+    addEducation() {
+      this.templateData.education.push({
+        degree: '',
+        institution: '',
+        period: '',
+        description: ''
+      });
+    },
+    removeEducation(index) {
+      this.templateData.education.splice(index, 1);
     },
     saveAllChanges() {
-      const templateID = 1;
-      const templateData = { ...this.resumeData };
+      const templateID = 3;
+      const templateData = { ...this.templateData };
       this.$emit('saveChanges', [templateID, templateData]);
-    }
+    },
+    onFileChange(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.templateData.personalInfo.profilePicture = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    },
+  },
+  mounted() {
+    // Auto-resize textareas on input
+    const autoResize = (textarea) => {
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    };
+    this.$nextTick(() => {
+      const textareas = this.$el.querySelectorAll('.auto-resize');
+      textareas.forEach(textarea => {
+        autoResize(textarea);
+        textarea.addEventListener('input', () => autoResize(textarea));
+      });
+    });
   }
-};
+}
 </script>
 
-<style>
-.Editor{
-  z-index: 1;
+<style scoped>
+.bg-green-800 {
+  background-color: #2D3748;
 }
-* {
-  margin: 0;
-  padding: 0;
+.text-green-800 {
+  color: #2D3748;
 }
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font: 16px Helvetica, Sans-Serif;
-  line-height: 24px;
-  background: url('../assets/noise.jpg');
+.text-pink-500 {
+  color: #ED64A6;
 }
-
-img{
-  width: 100px;
-  border: none;
-  border-radius: 10%;
+.border-pink-500 {
+  border-color: #ED64A6;
+}
+.min-w-screen-lg {
+  min-width: 1024px;
+}
+.shapes {
   position: relative;
-  top: 0;
-  right: 0;
+  z-index: -1;
 }
-
-.Draggable {
-  display: flex;
-  justify-content: flex-start;
-}
-.line {
-  border: 2px solid;
-}
-
-template {
-  margin-left: 1000px;
-}
-.clear {
-  clear: both;
-}
-#template {
-  width: 800px;
-  margin: 40px auto 60px;
-  display: flex;
-  flex-direction: column;
-}
-#pic {
-  float: right;
-  margin: -30px 0 0 0;
-}
-h1 {
-  margin: 0 0 16px 0;
-  padding: 0 0 16px 0;
-  font-size: 42px;
-  font-weight: bold;
-  letter-spacing: -2px;
-  border-bottom: 1px solid #999;
-}
-h2 {
-  font-size: 20px;
-  margin: 0 0 6px 0;
-  position: relative;
-}
-h2 span {
+.shape1 {
   position: absolute;
-  bottom: 0;
-  right: 0;
-  font-style: italic;
-  font-family: Georgia, Serif;
-  font-size: 16px;
-  color: #999;
-  font-weight: normal;
-}
-p {
-  margin: 0 0 16px 0;
-}
-a {
-  color: #999;
-  text-decoration: none;
-  border-bottom: 1px dotted #999;
-}
-a:hover {
-  border-bottom-style: solid;
-  color: black;
-}
-ul {
-  margin: 0 0 32px 17px;
-}
-#objective {
-  width: 500px;
-  float: left;
-}
-#objective p {
-  font-family: Georgia, Serif;
-  font-style: italic;
-  color: #666;
-}
-dt {
-  font-style: italic;
-  font-weight: bold;
-  font-size: 18px;
-  text-align: right;
-  padding: 0 26px 0 0;
-  width: 150px;
-  float: left;
+  top: -20px;
+  left: -20px;
+  width: 100px;
   height: 100px;
-  border-right: 1px solid #999;
+  background-color: #ED64A6;
+  border-radius: 50%;
+  opacity: 0.5;
 }
-dd {
-  width: 600px;
-  float: right;
+.shape2 {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  width: 150px;
+  height: 150px;
+  background-color: #2D3748;
+  border-radius: 50%;
+  opacity: 0.5;
 }
-dd.clear {
-  float: none;
-  margin: 0;
-  height: 15px;
-}
-.button-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px 0;
-  position: fixed;
-  bottom: 10px;
-  width: 100%;
-}
-.save-button {
-  padding: 10px 20px;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  background-color: rgba(0, 92, 191, 0.8);
-  cursor: pointer;
-}
-.save-button:hover {
-  background-color: #0056b3;
+input[type="placeholder"],
+textarea {
+  overflow: hidden;
+  white-space: normal;
+  word-wrap: break-word;
+  resize: none; /* Prevent textarea from being resized */
 }
 </style>

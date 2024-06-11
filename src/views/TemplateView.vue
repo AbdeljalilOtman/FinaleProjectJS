@@ -75,5 +75,33 @@ export default {
 </script>
 
 <style scoped>
-/* Add your styles here */
+#template {
+    max-width: 210mm; /* or 8.27in */
+    max-height: 297mm; /* or 11.69in */
+    margin: 0 auto; /* Center the template */
+    padding: 20mm; /* Optional: add some padding */
+    overflow: hidden;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+@media print {
+    #template {
+        width: 210mm;
+        height: 297mm;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+}
+@media (max-width: 210mm) {
+    #template {
+        width: 100%;
+    }
+}
+
+@media (max-width: 297mm) {
+    #template {
+        height: auto;
+    }
+}
 </style>
